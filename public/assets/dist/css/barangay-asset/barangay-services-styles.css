@@ -1,0 +1,236 @@
+@font-face {
+    font-family: 'CooperBlack';
+    src: url('CooperBlack.TTF');
+  }
+
+@font-face {
+    font-family: 'LucidaCalligraphy';
+    src: url('LucidaCalligraphy.ttf');
+  }
+
+body {
+    font-family: 'Cambria';
+    text-align: center;
+}
+
+.page-wrapper {
+    height: 100vh;
+}
+
+.img-back {
+    position: absolute;
+    z-index: -1;
+    max-width: 100%;
+    height: auto; 
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    opacity: 0.3;
+}
+
+.header-img-right {
+    float: right;
+}
+
+.header-img-left {
+    float: left;
+}
+
+.title-country, .title-city {
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Calibri';
+}
+
+.title-country, .title-address, .title-purpose {
+    text-align: center;
+    color: #44546a;
+}
+
+.title-city, .title-office, .title-address {
+    margin-top: -15px;
+}
+
+.title-city {
+    color: #5b9bd5;
+    margin-top: -15px;
+}
+
+.title-office {
+    text-align: center;
+    color: #FF0000;
+    font-size: 22px;
+    font-family: 'LucidaCalligraphy';
+}
+
+.title-address {
+    font-size: 20px;
+}
+
+.title-address, .title-purpose, .title-purpose2, .title-purpose3 {
+    font-family: 'CooperBlack';
+}
+
+.title-purpose {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.title-purpose2 {
+    text-align: center;
+    font-size: 1.5em;
+    color: #2E74B5;
+}
+
+.title-purpose3 {
+    text-align: center;
+    font-size: 1.5em;
+    color: #C00000;
+}
+
+.title-purpose4 {
+    text-align: center;
+    font-weight: 100;
+    font-size: 2em;
+    letter-spacing: 10px; 
+    text-transform: uppercase; 
+    color: #1F497D;
+}
+
+.title-purpose5 {
+    text-align: center;
+    font-weight: 100;
+    font-size: 2em;
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+    color: #1F497D;
+}
+
+.hr-blue {
+    border: 1px solid #5b9bd5;
+}
+
+.hr-red {
+    border: 1px solid #FF0000;
+}
+
+.container {
+    margin: 0px 50px;
+    text-align: left;
+}
+
+.container2 {
+    margin: 10px 0;
+}
+
+.sidebar2 {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 750px;
+    border-left: 2px solid #0070C0;
+}
+
+.card-side {
+    width: 250px;
+    position: absolute;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.card-main {
+    margin-left: auto;
+    padding: 0px 10px;
+}
+
+.card-body {
+    margin: 50px 0;
+}
+
+.card-body2,.card-body3 {
+    margin: 10px 0;
+}
+
+.card-body4 {
+    margin: 25px 0;
+}
+
+.card-body3 {
+    text-align: left;
+    font-family: 'Times New Roman';
+}
+
+.card-text {
+    text-indent: 50px;
+}
+
+.card-text2 {
+    font-family: 'Times New Roman';
+}
+
+.card-text3 {
+    text-indent: 50px;
+    text-align: left;
+    font-family: 'Times New Roman';
+}
+
+.card-issued {
+    text-align: center;
+    font-family: 'Times New Roman';
+}
+
+.b-officials {
+    text-transform: uppercase;
+}
+
+.card-name {
+    float: left;
+    margin-top: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-name2 {
+    float: right;
+    margin-top: 100px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-name3 {
+    float: left;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-name4 {
+    float: left;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-name5 {
+    float: right;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.form-group-left {
+    float: left;
+}
+
+.card-input {
+    margin-left: 25px;
+}
