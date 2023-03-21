@@ -66,9 +66,10 @@ class AdminBhertComponent extends Component
         $bhert->bhertPurpose = $this->bhertPurpose;
         $bhert->bhertAge = $this->bhertAge;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->bhertImage->extension();
-        $this->bhertImage->storeAs('bherts', $imageName, 'documents');
-        $bhert->bhertImage = $imageName;
+        if (request()->hasfile('image')) {
+            $imageName = time() . '.' . request()->bhertImage->getClientOriginalExtension();
+            request()->bhertImage->storeAs('bherts', $imageName, 'documents');
+        }
 
         $bhert->bhertStatus = 'approved';
 
@@ -108,7 +109,7 @@ class AdminBhertComponent extends Component
     {
         $bhert = BHERT::find($id);
 
-        unlink(public_path('assets/dist/img/bherts/' . $bhert->bhertImage));
+        // unlink(public_path('assets/dist/img/bherts/' . $bhert->bhertImage));
         $bhert->delete();
         return redirect()->route('admin.admin-bhert')
             ->with('message', 'BHERT Certificate has been deleted successfully! ');

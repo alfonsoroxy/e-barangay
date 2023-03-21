@@ -318,9 +318,7 @@
                                                 <code>*</code>
                                             </label>
                                             <input id="businessPermitImage" type="file"
-                                                class="form-control @error('businessPermitImage') is-invalid @enderror" name="businessPermitImage"
-                                                value="{{ old('businessPermitImage') }}" required autocomplete="businessPermitImage" 
-                                                wire:model="businessPermitImage">
+                                                class="form-control" required wire:model="businessPermitImage">
                                                 
                                                 @error('businessPermitImage') <p class="text-danger">{{ $message }}</p> @enderror
                         

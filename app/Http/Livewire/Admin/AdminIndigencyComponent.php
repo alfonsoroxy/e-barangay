@@ -64,9 +64,10 @@ class AdminIndigencyComponent extends Component
 
         $indigency->indigencyPurpose = $this->indigencyPurpose;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->indigencyImage->extension();
-        $this->indigencyImage->storeAs('indigencies', $imageName, 'documents');
-        $indigency->indigencyImage = $imageName;
+        if (request()->hasfile('image')) {
+            $imageName = time() . '.' . request()->indigencyImage->getClientOriginalExtension();
+            request()->indigencyImage->storeAs('indigencies', $imageName, 'documents');
+        }
 
         $indigency->indigencyStatus = 'approved';
 
@@ -106,7 +107,7 @@ class AdminIndigencyComponent extends Component
     {
         $indigency = Indigency::find($id);
 
-        unlink(public_path('assets/dist/img/indigencies/' . $indigency->indigencyImage));
+        // unlink(public_path('assets/dist/img/indigencies/' . $indigency->indigencyImage));
         $indigency->delete();
         return redirect()->route('admin.admin-indigency')
             ->with('message', 'Barangay Indigency has been deleted successfully! ');

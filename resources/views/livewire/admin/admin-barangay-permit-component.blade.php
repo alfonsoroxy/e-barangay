@@ -251,9 +251,7 @@
                                                     <code>*</code>
                                                 </label>
                                                 <input id="barangayPermitImage" type="file"
-                                                    class="form-control @error('barangayPermitImage') is-invalid @enderror" name="barangayPermitImage"
-                                                    value="{{ old('barangayPermitImage') }}" required autocomplete="barangayPermitImage" 
-                                                    wire:model="barangayPermitImage">
+                                                    class="form-control" required wire:model="barangayPermitImage">
                                                     
                                                     @error('barangayPermitImage') <p class="text-danger">{{ $message }}</p> @enderror
                                             </div>

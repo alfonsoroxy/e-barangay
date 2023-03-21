@@ -6,7 +6,7 @@ use App\Models\BarangayPermit;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
+// use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class AdminBarangayPermitComponent extends Component
@@ -89,8 +89,10 @@ class AdminBarangayPermitComponent extends Component
     public function deleteBarangayPermit($id)
     {
         $barangay_permit = BarangayPermit::find($id);
+        // Storage::disk('public')->delete($image->path);
+        // $image->delete();
 
-        unlink(public_path('assets/dist/img/barangay-permits/' . $barangay_permit->barangayPermitImage));
+        // unlink(public_path('assets/dist/img/barangay-permits/' . $barangay_permit->barangayPermitImage));
         $barangay_permit->delete();
         return redirect()->route('admin.admin-barangay-permit')
             ->with('message', 'Barangay Permit has been deleted successfully! ');

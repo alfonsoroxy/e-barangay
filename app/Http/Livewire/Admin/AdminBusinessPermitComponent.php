@@ -69,9 +69,10 @@ class AdminBusinessPermitComponent extends Component
 
         $business_permit->businessPermitStatus = 'approved';
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
-        $this->businessPermitImage->storeAs('business-permits', $imageName, 'documents');
-        $business_permit->businessPermitImage = $imageName;
+        if (request()->hasfile('image')) {
+            $imageName = time() . '.' . request()->businessPermitImage->getClientOriginalExtension();
+            request()->businessPermitImage->storeAs('business-permits', $imageName, 'documents');
+        }
 
         $business_permit->save();
         return redirect()->route('admin.admin-business-permit')
@@ -111,7 +112,7 @@ class AdminBusinessPermitComponent extends Component
     {
         $business_permit = BusinessPermit::find($id);
 
-        unlink('assets/dist/img/business-permits/' . $business_permit->businessPermitImage);
+        // unlink('assets/dist/img/business-permits/' . $business_permit->businessPermitImage);
         $business_permit->delete();
         return redirect()->route('admin.admin-business-permit')
             ->with('message', 'Business Permit has been deleted successfully! ');

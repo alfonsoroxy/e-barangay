@@ -370,9 +370,7 @@
                                                 <code>*</code>
                                             </label>
                                             <input id="jobSeekerImage" type="file"
-                                                class="form-control @error('jobSeekerImage') is-invalid @enderror" name="jobSeekerImage"
-                                                value="{{ old('jobSeekerImage') }}" required autocomplete="jobSeekerImage" 
-                                                wire:model="jobSeekerImage">
+                                                class="form-control" required wire:model="jobSeekerImage">
                                                 
                                                 @error('jobSeekerImage') <p class="text-danger">{{ $message }}</p> @enderror
                         

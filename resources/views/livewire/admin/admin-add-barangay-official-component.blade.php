@@ -135,9 +135,7 @@
                                             <div class="form-group">
                                                 <label>Upload Official Image (Max: 1MB, 1x1)<code>*</code></label>
                                                 <input id="brgyImage" type="file"
-                                                    class="form-control @error('brgyImage') is-invalid @enderror" name="brgyImage"
-                                                    value="{{ old('brgyImage') }}" required autocomplete="brgyImage" 
-                                                    wire:model="brgyImage">
+                                                    class="form-control" required wire:model="brgyImage">
                                                     
                                                     @if($brgyImage)
                                                         <img src="{{ $brgyImage->temporaryUrl() }}" width="120" />

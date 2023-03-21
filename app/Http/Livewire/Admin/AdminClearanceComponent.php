@@ -69,9 +69,10 @@ class AdminClearanceComponent extends Component
         $clearance->clearanceGender = $this->clearanceGender;
         $clearance->clearanceMaritalstatus = $this->clearanceMaritalstatus;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->clearanceImage->extension();
-        $this->clearanceImage->storeAs('clearances', $imageName, 'documents');
-        $clearance->clearanceImage = $imageName;
+        if (request()->hasfile('image')) {
+            $imageName = time() . '.' . request()->clearanceImage->getClientOriginalExtension();
+            request()->clearanceImage->storeAs('clearances', $imageName, 'documents');
+        }
 
         $clearance->clearanceStatus = 'approved';
 
@@ -111,7 +112,7 @@ class AdminClearanceComponent extends Component
     {
         $clearance = Clearance::find($id);
 
-        unlink(public_path('assets/dist/img/clearances/' . $clearance->clearanceImage));
+        // unlink(public_path('assets/dist/img/clearances/' . $clearance->clearanceImage));
         $clearance->delete();
         return redirect()->route('admin.admin-clearance')
             ->with('message', 'Barangay Clearance has been deleted successfully! ');
