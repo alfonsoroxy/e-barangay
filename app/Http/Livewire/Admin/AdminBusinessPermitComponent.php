@@ -111,7 +111,7 @@ class AdminBusinessPermitComponent extends Component
     {
         $business_permit = BusinessPermit::find($id);
 
-        // unlink('assets/dist/img/business-permits/' . $business_permit->businessPermitImage);
+        unlink('assets/dist/img/business-permits/' . $business_permit->businessPermitImage);
         $business_permit->delete();
         return redirect()->route('admin.admin-business-permit')
             ->with('message', 'Business Permit has been deleted successfully! ');

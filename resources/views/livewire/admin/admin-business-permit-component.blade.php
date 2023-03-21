@@ -292,7 +292,7 @@
                                             <select class="form-control" wire:model="businessPermitStreetname" required>
                                                 <option value="">Select Address</option>
                                                 <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                <option value="G. Masangkay St">G. Masangkay St</option>
+                                                <option value="G Masangkay St">G Masangkay St</option>
                                                 <option value="Mayhaligue St">Mayhaligue St</option>
                                             </select>
                                             @error('businessPermitStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -310,9 +310,7 @@
                                                 <code>*</code>
                                             </label>
                                             <input id="businessPermitImage" type="file"
-                                                class="form-control @error('businessPermitImage') is-invalid @enderror" name="businessPermitImage"
-                                                value="{{ old('businessPermitImage') }}" required autocomplete="businessPermitImage" 
-                                                wire:model="businessPermitImage">
+                                                class="form-control "required wire:model="businessPermitImage">
                                                 
                                                 @error('businessPermitImage') <p class="text-danger">{{ $message }}</p> @enderror
                         
