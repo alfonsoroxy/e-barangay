@@ -37,19 +37,24 @@ return [
             'throw' => false,
         ],
 
+        // 'local' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app'),
+        //     // 'root' => public_path('assets/dist/img/verification/'),
+        //     'throw' => false,
+        // ],
+
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
-            // 'root' => public_path('assets/dist/img/verification/'),
-            'throw' => false,
+            // 'root' => storage_path('app'),
+            'root' => public_path('assets/dist/img/'),
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('assets/dist/img/'),
+            'root' => storage_path('app/public'),
             'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
-            'throw' => false,
         ],
 
         's3' => [
