@@ -30,6 +30,13 @@ return [
 
     'disks' => [
 
+        //Path For Adding Request Documents or Barangay Officials
+        // 'documents' => [
+        //     'driver' => 'local',
+        //     'root' => public_path('assets/dist/img/'),
+        //     'throw' => false,
+        // ],
+
         'local' => [
             'driver' => 'local',
             // 'root' => storage_path('app'),
@@ -70,7 +77,8 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('app/public'),
+        public_path('public') => storage_path('assets/dist/img/'),
     ],
 
 ];
