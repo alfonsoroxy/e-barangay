@@ -19,24 +19,24 @@ class AdminClearanceComponent extends Component
     public $clearanceNationality, $clearanceGender, $clearanceMaritalstatus;
     public $clearanceImage;
 
-    public function updated($fields)
-    {
-        $this->validateOnly($fields, [
-            'clearanceFname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
-            'clearanceLname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
-            'clearanceMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
-            'clearanceSuffix' => 'nullable|max:10/|regex:/^[a-zA-ZÑñ\s]+$/',
+    // public function updated($fields)
+    // {
+    //     $this->validateOnly($fields, [
+    //         'clearanceFname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+    //         'clearanceLname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+    //         'clearanceMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+    //         'clearanceSuffix' => 'nullable|max:10/|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'clearanceHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
-            'clearanceStreetname' => 'required',
+    //         'clearanceHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+    //         'clearanceStreetname' => 'required',
 
-            'clearanceNationality' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
-            'clearanceGender' => 'required',
-            'clearanceMaritalstatus' => 'required',
+    //         'clearanceNationality' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+    //         'clearanceGender' => 'required',
+    //         'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
-        ]);
-    }
+    //         'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+    //     ]);
+    // }
 
     public function addClearance()
     {
