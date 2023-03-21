@@ -67,7 +67,7 @@ class AdminAddBarangayOfficialComponent extends Component
         $barangay_official->brgyOfficialPosition = $this->brgyOfficialPosition;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->brgyImage->extension();
-        $this->brgyImage->storeAs('barangay-officials', $imageName);
+        $this->brgyImage->storeAs('barangay-officials', $imageName, 'documents');
         $barangay_official->brgyImage = $imageName;
 
         $barangay_official->save();
