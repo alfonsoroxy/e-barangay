@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->integer('houseNumber');
             $table->enum('streetName', [
-                'Bambang Cor Masangkay St', 'G. Masangkay St', 'Mayhaligue St'
+                'Bambang Cor Masangkay St', 'G Masangkay St', 'Mayhaligue St'
             ]);
 
             $table->date('birthday');
