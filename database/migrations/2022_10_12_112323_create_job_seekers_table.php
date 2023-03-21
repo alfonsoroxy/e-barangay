@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('jobSeekerSuffix')->nullable();
             $table->string('jobSeekerHousenumber');
             $table->enum('jobSeekerStreetname', [
-                'Bambang Cor Masangkay St', 'G Masangkay St', 'Mayhaligue St'
+                'Bambang Cor Masangkay St', 'G. Masangkay St', 'Mayhaligue St'
             ]);
 
             $table->string('jobSeekerImage')->nullable();

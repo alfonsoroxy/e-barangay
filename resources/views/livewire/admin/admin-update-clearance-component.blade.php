@@ -89,7 +89,7 @@
                                                 <label>Street Name <code>*</code></label>
                                                 <select class="form-control" wire:model="clearanceStreetname">
                                                     <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                    <option value="G Masangkay St">G Masangkay St</option>
+                                                    <option value="G. Masangkay St">G. Masangkay St</option>
                                                     <option value="Mayhaligue St">Mayhaligue St</option>
                                                 </select>
                                                 @error('clearanceStreetname') <p class="text-danger">{{ $message }}</p> @enderror

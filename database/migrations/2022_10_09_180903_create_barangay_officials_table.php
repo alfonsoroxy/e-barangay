@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->string('brgyOfficialHousenumber');
             $table->enum('brgyOfficialStreetname', [
-                'Bambang Cor Masangkay St', 'G Masangkay St', 'Mayhaligue St'
+                'Bambang Cor Masangkay St', 'G. Masangkay St', 'Mayhaligue St'
             ]);
 
             $table->string('brgyOfficialEmail')->unique()->nullable();

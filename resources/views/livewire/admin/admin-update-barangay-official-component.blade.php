@@ -89,7 +89,7 @@
                                                 <select class="form-control" wire:model="brgyOfficialStreetname">
                                                     <option value="">Select Address</option>
                                                     <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                    <option value="G Masangkay St">G Masangkay St</option>
+                                                    <option value="G. Masangkay St">G. Masangkay St</option>
                                                     <option value="Mayhaligue St">Mayhaligue St</option>
                                                 </select>
                                                 @error('brgyOfficialStreetname') <p class="text-danger">{{ $message }}</p> @enderror
