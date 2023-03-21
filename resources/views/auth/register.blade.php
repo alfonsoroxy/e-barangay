@@ -191,7 +191,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label>Upload Image <code>this is for account verification purposes</code></label>
+                        <label>Upload Image <code>this is for account verification purposes (Max: 1MB, 1x1)</code></label>
                         <input id="image" type="file"
                             class="form-control @error('image') is-invalid @enderror" name="image"
                             value="{{ old('image') }}" required autocomplete="image">

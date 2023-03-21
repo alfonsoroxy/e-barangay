@@ -122,7 +122,8 @@ return [
     |
     */
 
-    'manifest_path' => base_path('bootstrap/cache/manifest.json'),
+    'manifest_path' => null,
+    // 'manifest_path' => base_path('bootstrap/cache/manifest.json'),
 
     /*
     |--------------------------------------------------------------------------
