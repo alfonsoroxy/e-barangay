@@ -31,23 +31,23 @@ return [
     'disks' => [
 
         //Path For Adding Request Documents or Barangay Officials
-        // 'documents' => [
-        //     'driver' => 'local',
-        //     'root' => public_path('assets/dist/img/'),
-        //     'throw' => false,
-        // ],
+        'documents' => [
+            'driver' => 'local',
+            'root' => public_path('assets/dist/img/'),
+            'throw' => false,
+        ],
 
         'local' => [
             'driver' => 'local',
-            // 'root' => storage_path('app'),
-            'root' => public_path('assets/dist/img/'),
+            'root' => storage_path('app'),
+            // 'root' => public_path('assets/dist/img/verification/'),
             'throw' => false,
         ],
 
         'public' => [
             'driver' => 'local',
             'root' => storage_path('assets/dist/img/'),
-            'url' => env('APP_URL') . 'assets/dist/img/',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -79,7 +79,6 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        // public_path('public') => storage_path('assets/dist/img/'),
     ],
 
 ];
