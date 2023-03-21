@@ -12,7 +12,7 @@ class AdminResidentComponent extends Component
     {
         $user = User::find($id);
 
-        unlink('assets/dist/img/verification/' . $user->image);
+        unlink(public_path('assets/dist/img/verification/' . $user->image));
         $user->delete();
         return redirect()->route('admin.admin-resident')
             ->with('message', 'Barangay Resident has been deleted successfully! ');

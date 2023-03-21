@@ -31,7 +31,7 @@ class AdminCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -47,7 +47,7 @@ class AdminCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $certificate = new Certificate();
@@ -64,7 +64,7 @@ class AdminCertificateComponent extends Component
         $certificate->certificateOtherPurpose = $this->certificateOtherPurpose;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
-        $this->certificateImage->storeAs('certificates', $imageName, 'documents');
+        $this->certificateImage->storeAs('certificates', $imageName);
         $certificate->certificateImage = $imageName;
 
         $certificate->certificateStatus = 'approved';
@@ -105,7 +105,7 @@ class AdminCertificateComponent extends Component
     {
         $certificate = Certificate::find($id);
 
-        unlink('assets/dist/img/certificates/' . $certificate->certificateImage);
+        unlink(public_path('assets/dist/img/certificates/' . $certificate->certificateImage));
         $certificate->delete();
         return redirect()->route('admin.admin-certificate')
             ->with('message', 'Barangay Certificate has been deleted successfully! ');

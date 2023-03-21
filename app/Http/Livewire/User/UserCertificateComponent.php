@@ -30,7 +30,7 @@ class UserCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -46,7 +46,7 @@ class UserCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $certificate = new Certificate();
@@ -63,7 +63,7 @@ class UserCertificateComponent extends Component
         $certificate->certificateOtherPurpose = $this->certificateOtherPurpose;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
-        $this->certificateImage->storeAs('certificates', $imageName, 'documents');
+        $this->certificateImage->storeAs('certificates', $imageName);
         $certificate->certificateImage = $imageName;
 
         $certificate->certificateStatus = 'pending';

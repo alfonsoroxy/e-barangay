@@ -32,7 +32,7 @@ class AdminIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -49,7 +49,7 @@ class AdminIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $indigency = new Indigency();
@@ -65,7 +65,7 @@ class AdminIndigencyComponent extends Component
         $indigency->indigencyPurpose = $this->indigencyPurpose;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->indigencyImage->extension();
-        $this->indigencyImage->storeAs('indigencies', $imageName, 'documents');
+        $this->indigencyImage->storeAs('indigencies', $imageName);
         $indigency->indigencyImage = $imageName;
 
         $indigency->indigencyStatus = 'approved';
@@ -106,7 +106,7 @@ class AdminIndigencyComponent extends Component
     {
         $indigency = Indigency::find($id);
 
-        unlink('assets/dist/img/indigencies/' . $indigency->indigencyImage);
+        unlink(public_path('assets/dist/img/indigencies/' . $indigency->indigencyImage));
         $indigency->delete();
         return redirect()->route('admin.admin-indigency')
             ->with('message', 'Barangay Indigency has been deleted successfully! ');

@@ -64,7 +64,7 @@ class RegisterController extends Controller
             'maritalStatus' => ['required'],
 
             'contact' => ['nullable', 'string', 'regex:/^[-0-9\+]+$/', 'max:11'],
-            'image' => ['image', 'mimes:jpg,jpeg,png', 'max:1024',],
+            'image' => ['image', 'mimes:jpg,jpeg,png', 'max:2048',],
 
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -84,7 +84,7 @@ class RegisterController extends Controller
     {
         if (request()->hasfile('image')) {
             $imageName = time() . '.' . request()->image->getClientOriginalExtension();
-            request()->image->storeAs('verification', $imageName, 'documents');
+            request()->image->storeAs('verification', $imageName);
         }
         return User::create([
             'first_name' => $data['first_name'],

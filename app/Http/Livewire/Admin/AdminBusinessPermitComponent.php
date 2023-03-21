@@ -33,7 +33,7 @@ class AdminBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -51,7 +51,7 @@ class AdminBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $business_permit = new BusinessPermit();
@@ -70,7 +70,7 @@ class AdminBusinessPermitComponent extends Component
         $business_permit->businessPermitStatus = 'approved';
 
         $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
-        $this->businessPermitImage->storeAs('business-permits', $imageName, 'documents');
+        $this->businessPermitImage->storeAs('business-permits', $imageName);
         $business_permit->businessPermitImage = $imageName;
 
         $business_permit->save();
@@ -111,7 +111,7 @@ class AdminBusinessPermitComponent extends Component
     {
         $business_permit = BusinessPermit::find($id);
 
-        unlink('assets/dist/img/business-permits/' . $business_permit->businessPermitImage);
+        unlink(public_path('assets/dist/img/business-permits/' . $business_permit->businessPermitImage));
         $business_permit->delete();
         return redirect()->route('admin.admin-business-permit')
             ->with('message', 'Business Permit has been deleted successfully! ');

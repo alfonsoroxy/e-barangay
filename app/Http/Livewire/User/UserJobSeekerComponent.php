@@ -36,7 +36,7 @@ class UserJobSeekerComponent extends Component
             'jobSeekerAge' => 'required|date',
             'jobSeekerResidentstayyears' => 'required|date',
 
-            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -58,7 +58,7 @@ class UserJobSeekerComponent extends Component
             'jobSeekerAge' => 'required|date',
             'jobSeekerResidentstayyears' => 'required|date',
 
-            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $job_seeker = new JobSeeker();
@@ -78,7 +78,7 @@ class UserJobSeekerComponent extends Component
         $job_seeker->jobSeekerResidentstayyears = $this->jobSeekerResidentstayyears;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->jobSeekerImage->extension();
-        $this->jobSeekerImage->storeAs('job-seekers', $imageName, 'documents');
+        $this->jobSeekerImage->storeAs('job-seekers', $imageName);
         $job_seeker->jobSeekerImage = $imageName;
 
         $job_seeker->jobSeekerStatus = 'pending';

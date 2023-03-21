@@ -33,7 +33,7 @@ class AdminBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -51,7 +51,7 @@ class AdminBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $bhert = new BHERT();
@@ -67,7 +67,7 @@ class AdminBhertComponent extends Component
         $bhert->bhertAge = $this->bhertAge;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->bhertImage->extension();
-        $this->bhertImage->storeAs('bherts', $imageName, 'documents');
+        $this->bhertImage->storeAs('bherts', $imageName);
         $bhert->bhertImage = $imageName;
 
         $bhert->bhertStatus = 'approved';
@@ -108,7 +108,7 @@ class AdminBhertComponent extends Component
     {
         $bhert = BHERT::find($id);
 
-        unlink('assets/dist/img/bherts/' . $bhert->bhertImage);
+        unlink(public_path('assets/dist/img/bherts/' . $bhert->bhertImage));
         $bhert->delete();
         return redirect()->route('admin.admin-bhert')
             ->with('message', 'BHERT Certificate has been deleted successfully! ');

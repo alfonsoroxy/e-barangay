@@ -11,8 +11,9 @@ class AdminBarangayOfficialComponent extends Component
     {
         $barangay_official = BarangayOfficial::find($id);
 
-        unlink('assets/dist/img/barangay-officials/' . $barangay_official->brgyImage);
+        unlink(public_path('assets/dist/img/barangay-officials/' . $barangay_official->brgyImage));
         $barangay_official->delete();
+
         return redirect()->route('admin.admin-barangay-official')
             ->with('message', 'Barangay Official has been deleted successfully! ');
     }

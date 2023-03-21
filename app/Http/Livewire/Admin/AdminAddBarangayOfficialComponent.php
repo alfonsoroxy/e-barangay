@@ -29,7 +29,7 @@ class AdminAddBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:12|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -50,7 +50,7 @@ class AdminAddBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $barangay_official = new BarangayOfficial();
@@ -67,7 +67,7 @@ class AdminAddBarangayOfficialComponent extends Component
         $barangay_official->brgyOfficialPosition = $this->brgyOfficialPosition;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->brgyImage->extension();
-        $this->brgyImage->storeAs('barangay-officials', $imageName, 'documents');
+        $this->brgyImage->storeAs('barangay-officials', $imageName);
         $barangay_official->brgyImage = $imageName;
 
         $barangay_official->save();

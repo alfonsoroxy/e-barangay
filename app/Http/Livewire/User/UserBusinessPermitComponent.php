@@ -32,7 +32,7 @@ class UserBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -50,7 +50,7 @@ class UserBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $business_permit = new BusinessPermit();
@@ -69,7 +69,7 @@ class UserBusinessPermitComponent extends Component
         $business_permit->businessPermitStatus = 'pending';
 
         $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
-        $this->businessPermitImage->storeAs('business-permits', $imageName, 'documents');
+        $this->businessPermitImage->storeAs('business-permits', $imageName);
         $business_permit->businessPermitImage = $imageName;
 
         $business_permit->save();

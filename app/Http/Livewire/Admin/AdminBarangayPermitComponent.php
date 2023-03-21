@@ -26,7 +26,7 @@ class AdminBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -38,7 +38,7 @@ class AdminBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage.*' => 'required|image|mimes:jpg,jpeg,png|max:1024', // 1MB Max
+            'barangayPermitImage.*' => 'required|image|mimes:jpg,jpeg,png|max:2048', // 2MB Max
         ]);
 
         $barangay_permit = new BarangayPermit();
@@ -49,7 +49,7 @@ class AdminBarangayPermitComponent extends Component
         $barangay_permit->barangayPermitStreetname = $this->barangayPermitStreetname;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
-        $this->barangayPermitImage->storeAs('barangay-permits', $imageName, 'documents');
+        $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
         $barangay_permit->barangayPermitImage = $imageName;
 
         $barangay_permit->barangayPermitStatus = 'approved';
@@ -89,7 +89,7 @@ class AdminBarangayPermitComponent extends Component
     {
         $barangay_permit = BarangayPermit::find($id);
 
-        unlink('assets/dist/img/barangay-permits/' . $barangay_permit->barangayPermitImage);
+        unlink(public_path('assets/dist/img/barangay-permits/' . $barangay_permit->barangayPermitImage));
         $barangay_permit->delete();
         return redirect()->route('admin.admin-barangay-permit')
             ->with('message', 'Barangay Permit has been deleted successfully! ');

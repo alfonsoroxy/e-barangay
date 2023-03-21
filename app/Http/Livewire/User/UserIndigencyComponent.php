@@ -31,7 +31,7 @@ class UserIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -48,7 +48,7 @@ class UserIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $indigency = new Indigency();
@@ -64,7 +64,7 @@ class UserIndigencyComponent extends Component
         $indigency->indigencyPurpose = $this->indigencyPurpose;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->indigencyImage->extension();
-        $this->indigencyImage->storeAs('indigencies', $imageName, 'documents');
+        $this->indigencyImage->storeAs('indigencies', $imageName);
         $indigency->indigencyImage = $imageName;
 
         $indigency->indigencyStatus = 'pending';

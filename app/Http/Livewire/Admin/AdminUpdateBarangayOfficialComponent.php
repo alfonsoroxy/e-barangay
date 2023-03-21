@@ -49,7 +49,7 @@ class AdminUpdateBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png',
+            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -71,9 +71,9 @@ class AdminUpdateBarangayOfficialComponent extends Component
         $barangay_official->brgyOfficialPosition = $this->brgyOfficialPosition;
 
         if ($this->brgyNewImage) {
-            unlink('assets/dist/img/barangay-officials/' . $barangay_official->brgyImage);
+            unlink(public_path('assets/dist/img/barangay-officials/' . $barangay_official->brgyImage));
             $imageName = Carbon::now()->timestamp . '.' . $this->brgyNewImage->extension();
-            $this->brgyNewImage->storeAs('barangay-officials', $imageName, 'documents');
+            $this->brgyNewImage->storeAs('barangay-officials', $imageName);
             $barangay_official->brgyImage = $imageName;
         }
 

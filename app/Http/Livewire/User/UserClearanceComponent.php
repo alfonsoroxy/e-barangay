@@ -34,7 +34,7 @@ class UserClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     }
 
@@ -53,7 +53,7 @@ class UserClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $clearance = new Clearance();
@@ -70,7 +70,7 @@ class UserClearanceComponent extends Component
         $clearance->clearanceMaritalstatus = $this->clearanceMaritalstatus;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->clearanceImage->extension();
-        $this->clearanceImage->storeAs('clearances', $imageName, 'documents');
+        $this->clearanceImage->storeAs('clearances', $imageName);
         $clearance->clearanceImage = $imageName;
 
         $clearance->clearanceStatus = 'pending';
