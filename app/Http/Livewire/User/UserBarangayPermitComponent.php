@@ -25,7 +25,7 @@ class UserBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -37,7 +37,7 @@ class UserBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $barangay_permit = new BarangayPermit();

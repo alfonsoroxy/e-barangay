@@ -34,7 +34,7 @@ class UserClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -53,7 +53,7 @@ class UserClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $clearance = new Clearance();

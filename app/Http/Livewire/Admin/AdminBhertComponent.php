@@ -33,7 +33,7 @@ class AdminBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -51,7 +51,7 @@ class AdminBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $bhert = new BHERT();

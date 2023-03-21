@@ -30,7 +30,7 @@ class UserCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -46,7 +46,7 @@ class UserCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $certificate = new Certificate();

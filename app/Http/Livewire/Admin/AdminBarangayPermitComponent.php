@@ -26,7 +26,7 @@ class AdminBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -38,7 +38,7 @@ class AdminBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage.*' => 'required|image|mimes:jpg,jpeg,png|max:2048', // 2MB Max
+            'barangayPermitImage.*' => 'required|image|mimes:jpg,jpeg,png|max:1024', // 1MB Max
         ]);
 
         $barangay_permit = new BarangayPermit();
@@ -48,8 +48,8 @@ class AdminBarangayPermitComponent extends Component
         $barangay_permit->barangayPermitHousenumber = $this->barangayPermitHousenumber;
         $barangay_permit->barangayPermitStreetname = $this->barangayPermitStreetname;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->getClientOriginalExtension();
-        $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
+        $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
+        $this->barangayPermitImage->storeAs('barangay-permits', $imageName, 'local');
         $barangay_permit->barangayPermitImage = $imageName;
 
         $barangay_permit->barangayPermitStatus = 'approved';

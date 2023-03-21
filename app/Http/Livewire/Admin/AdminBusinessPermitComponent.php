@@ -33,7 +33,7 @@ class AdminBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -51,7 +51,7 @@ class AdminBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $business_permit = new BusinessPermit();

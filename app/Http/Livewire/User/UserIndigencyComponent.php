@@ -31,7 +31,7 @@ class UserIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -48,7 +48,7 @@ class UserIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $indigency = new Indigency();

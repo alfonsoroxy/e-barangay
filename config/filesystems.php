@@ -37,13 +37,6 @@ return [
             'throw' => false,
         ],
 
-        // 'local' => [
-        //     'driver' => 'local',
-        //     'root' => storage_path('app'),
-        //     // 'root' => public_path('assets/dist/img/verification/'),
-        //     'throw' => false,
-        // ],
-
         'local' => [
             'driver' => 'local',
             // 'root' => storage_path('app'),

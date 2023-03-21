@@ -36,7 +36,7 @@ class UserJobSeekerComponent extends Component
             'jobSeekerAge' => 'required|date',
             'jobSeekerResidentstayyears' => 'required|date',
 
-            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -58,7 +58,7 @@ class UserJobSeekerComponent extends Component
             'jobSeekerAge' => 'required|date',
             'jobSeekerResidentstayyears' => 'required|date',
 
-            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $job_seeker = new JobSeeker();

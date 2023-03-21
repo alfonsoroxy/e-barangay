@@ -29,7 +29,7 @@ class AdminAddBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:12|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
     }
 
@@ -50,7 +50,7 @@ class AdminAddBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $barangay_official = new BarangayOfficial();
