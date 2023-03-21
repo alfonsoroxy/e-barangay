@@ -64,7 +64,7 @@ class UserIndigencyComponent extends Component
         $indigency->indigencyPurpose = $this->indigencyPurpose;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->indigencyImage->extension();
-        $this->indigencyImage->storeAs('indigencies', $imageName);
+        $this->indigencyImage->storeAs('indigencies', $imageName, 'documents');
         $indigency->indigencyImage = $imageName;
 
         $indigency->indigencyStatus = 'pending';

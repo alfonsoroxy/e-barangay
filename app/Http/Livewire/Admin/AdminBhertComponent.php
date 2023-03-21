@@ -67,7 +67,7 @@ class AdminBhertComponent extends Component
         $bhert->bhertAge = $this->bhertAge;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->bhertImage->extension();
-        $this->bhertImage->storeAs('bherts', $imageName);
+        $this->bhertImage->storeAs('bherts', $imageName, 'documents');
         $bhert->bhertImage = $imageName;
 
         $bhert->bhertStatus = 'approved';

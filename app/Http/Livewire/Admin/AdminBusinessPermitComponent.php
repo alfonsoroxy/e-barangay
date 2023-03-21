@@ -70,7 +70,7 @@ class AdminBusinessPermitComponent extends Component
         $business_permit->businessPermitStatus = 'approved';
 
         $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
-        $this->businessPermitImage->storeAs('business-permits', $imageName);
+        $this->businessPermitImage->storeAs('business-permits', $imageName, 'documents');
         $business_permit->businessPermitImage = $imageName;
 
         $business_permit->save();

@@ -71,9 +71,8 @@ class AdminUpdateBarangayOfficialComponent extends Component
         $barangay_official->brgyOfficialPosition = $this->brgyOfficialPosition;
 
         if ($this->brgyNewImage) {
-            unlink(public_path('assets/dist/img/barangay-officials/' . $barangay_official->brgyImage));
             $imageName = Carbon::now()->timestamp . '.' . $this->brgyNewImage->extension();
-            $this->brgyNewImage->storeAs('barangay-officials', $imageName);
+            $this->brgyNewImage->storeAs('barangay-officials', $imageName, 'documents');
             $barangay_official->brgyImage = $imageName;
         }
 

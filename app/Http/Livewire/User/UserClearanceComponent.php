@@ -70,7 +70,7 @@ class UserClearanceComponent extends Component
         $clearance->clearanceMaritalstatus = $this->clearanceMaritalstatus;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->clearanceImage->extension();
-        $this->clearanceImage->storeAs('clearances', $imageName);
+        $this->clearanceImage->storeAs('clearances', $imageName, 'documents');
         $clearance->clearanceImage = $imageName;
 
         $clearance->clearanceStatus = 'pending';

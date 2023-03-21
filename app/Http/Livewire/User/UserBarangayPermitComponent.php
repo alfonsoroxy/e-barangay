@@ -48,7 +48,7 @@ class UserBarangayPermitComponent extends Component
         $barangay_permit->barangayPermitStreetname = $this->barangayPermitStreetname;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
-        $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
+        $this->barangayPermitImage->storeAs('barangay-permits', $imageName, 'documents');
         $barangay_permit->barangayPermitImage = $imageName;
 
         $barangay_permit->barangayPermitStatus = 'pending';

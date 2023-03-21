@@ -64,7 +64,7 @@ class AdminCertificateComponent extends Component
         $certificate->certificateOtherPurpose = $this->certificateOtherPurpose;
 
         $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
-        $this->certificateImage->storeAs('certificates', $imageName);
+        $this->certificateImage->storeAs('certificates', $imageName, 'documents');
         $certificate->certificateImage = $imageName;
 
         $certificate->certificateStatus = 'approved';
