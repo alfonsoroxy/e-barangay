@@ -62,8 +62,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($bherts->chunk(100) as $row)
-                                        @foreach ($row as $bhert)
+                                        @foreach ($bherts as $bhert)
                                         
                                         <tr class="text-capitalize">
                                             <td>{{ $bhert->id }}</td>
@@ -122,7 +121,6 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                        @endforeach
                                         @endforeach
 
                                     </tbody>

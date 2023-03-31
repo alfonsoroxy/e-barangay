@@ -17,7 +17,13 @@ class AdminDashboardComponent extends Component
 {
     public function render()
     {
-        $announcements = Announcement::all();
+        // $announcements = [];
+
+        // Announcement::chunk(100, function ($chunk) use (&$announcements) {
+        //     foreach ($chunk as $announcement) {
+        //         $announcements[] = $announcement;
+        //     }
+        // });
 
         //All population
         $users = User::where('is_admin', 'USR');
@@ -30,18 +36,16 @@ class AdminDashboardComponent extends Component
         $indigencies = Indigency::where('indigencyStatus', 'pending')->get();
         $job_seekers = JobSeeker::where('jobSeekerStatus', 'pending')->get();
 
-        return view(
-            'livewire.admin.admin-dashboard-component'
-        )
-            ->with('users', $users)
-            ->with('announcements', $announcements)
-            ->with('barangay_permits', $barangay_permits)
-            // ->with('bherts', $bherts)
-            ->with('business_permits', $business_permits)
-            ->with('certificates', $certificates)
-            ->with('clearances', $clearances)
-            ->with('indigencies', $indigencies)
-            ->with('job_seekers', $job_seekers)
-            ->layout('layouts.admin');
+        return view('livewire.admin.admin-dashboard-component', [
+            'users' => $users,
+            // 'announcements' => $announcements,
+            'barangay_permits' => $barangay_permits,
+            // 'bherts' => $bherts,
+            'business_permits' => $business_permits,
+            'certificates' => $certificates,
+            'clearances' => $clearances,
+            'indigencies' => $indigencies,
+            'job_seekers' => $job_seekers
+        ])->layout('layouts.admin');
     }
 }

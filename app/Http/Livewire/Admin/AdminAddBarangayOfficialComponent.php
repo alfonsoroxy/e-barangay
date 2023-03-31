@@ -66,11 +66,9 @@ class AdminAddBarangayOfficialComponent extends Component
         $barangay_official->brgyOfficialContact = $this->brgyOfficialContact;
         $barangay_official->brgyOfficialPosition = $this->brgyOfficialPosition;
 
-
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->brgyImage->getClientOriginalExtension();
-            request()->brgyImage->storeAs('barangay-officials', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->brgyImage->extension();
+        $this->brgyImage->storeAs('barangay-officials', $imageName);
+        $barangay_official->brgyImage = $imageName;
 
         $barangay_official->save();
         return redirect()->route('admin.admin-barangay-official')

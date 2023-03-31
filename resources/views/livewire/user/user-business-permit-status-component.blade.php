@@ -63,8 +63,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($business_permits->chunk(100) as $row)
-                                        @foreach ($row as $business_permit)
+                                        @foreach ($business_permits as $business_permit)
                                         
                                         <tr class="text-capitalize">
                                             <td>{{ $business_permit->id }}</td>
@@ -125,7 +124,6 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                        @endforeach
                                         @endforeach
 
                                     </tbody>

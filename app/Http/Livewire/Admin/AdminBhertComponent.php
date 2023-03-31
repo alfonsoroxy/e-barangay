@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AdminBhertComponent extends Component
 {
@@ -66,10 +67,9 @@ class AdminBhertComponent extends Component
         $bhert->bhertPurpose = $this->bhertPurpose;
         $bhert->bhertAge = $this->bhertAge;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->bhertImage->getClientOriginalExtension();
-            request()->bhertImage->storeAs('bherts', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->bhertImage->extension();
+        $this->bhertImage->storeAs('bherts', $imageName);
+        $bhert->bhertImage = $imageName;
 
         $bhert->bhertStatus = 'approved';
 
@@ -109,7 +109,7 @@ class AdminBhertComponent extends Component
     {
         $bhert = BHERT::find($id);
 
-        // unlink(public_path('assets/dist/img/bherts/' . $bhert->bhertImage));
+        Storage::disk('local')->delete('bherts/' . $bhert->bhertImage);
         $bhert->delete();
         return redirect()->route('admin.admin-bhert')
             ->with('message', 'BHERT Certificate has been deleted successfully! ');
@@ -117,10 +117,16 @@ class AdminBhertComponent extends Component
 
     public function render()
     {
-        $bherts = BHERT::all();
+        $bherts = [];
 
-        return view('livewire.admin.admin-bhert-component')
-            ->with('bherts', $bherts)
-            ->layout('layouts.admin');
+        BHERT::chunk(100, function ($chunk) use (&$bherts) {
+            foreach ($chunk as $bhert) {
+                $bherts[] = $bhert;
+            }
+        });
+
+        return view('livewire.admin.admin-bhert-component', [
+            'bherts' => $bherts
+        ])->layout('layouts.admin');
     }
 }

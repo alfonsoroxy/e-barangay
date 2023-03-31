@@ -26,11 +26,16 @@ class UserBhertStatusComponent extends Component
 
     public function render()
     {
-        $bherts = BHERT::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')
-            ->get();
+        $bherts = [];
 
-        return view('livewire.user.user-bhert-status-component')
-            ->with('bherts', $bherts)
-            ->layout('layouts.user');
+        BHERT::where('user_id', Auth::user()->id)->chunk(100, function ($chunk) use (&$bherts) {
+            foreach ($chunk as $bhert) {
+                $bherts[] = $bhert;
+            }
+        });
+
+        return view('livewire.user.user-bhert-status-component', [
+            'bherts' => $bherts
+        ])->layout('layouts.user');
     }
 }

@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->string('certificateHousenumber');
             $table->enum('certificateStreetname', [
-                'Bambang Cor Masangkay St', 'G. Masangkay St', 'Mayhaligue St'
+                'Bambang Cor Masangkay St', 'G Masangkay St', 'Mayhaligue St'
             ]);
 
             $table->enum('certificatePurpose', [

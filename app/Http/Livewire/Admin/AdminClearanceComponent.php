@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AdminClearanceComponent extends Component
 {
@@ -69,10 +70,9 @@ class AdminClearanceComponent extends Component
         $clearance->clearanceGender = $this->clearanceGender;
         $clearance->clearanceMaritalstatus = $this->clearanceMaritalstatus;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->clearanceImage->getClientOriginalExtension();
-            request()->clearanceImage->storeAs('clearances', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->clearanceImage->extension();
+        $this->clearanceImage->storeAs('clearances', $imageName);
+        $clearance->clearanceImage = $imageName;
 
         $clearance->clearanceStatus = 'approved';
 
@@ -112,7 +112,7 @@ class AdminClearanceComponent extends Component
     {
         $clearance = Clearance::find($id);
 
-        // unlink(public_path('assets/dist/img/clearances/' . $clearance->clearanceImage));
+        Storage::disk('local')->delete('clearances/' . $clearance->clearanceImage);
         $clearance->delete();
         return redirect()->route('admin.admin-clearance')
             ->with('message', 'Barangay Clearance has been deleted successfully! ');
@@ -120,10 +120,16 @@ class AdminClearanceComponent extends Component
 
     public function render()
     {
-        $clearances = Clearance::all();
+        $clearances = [];
 
-        return view('livewire.admin.admin-clearance-component')
-            ->with('clearances', $clearances)
-            ->layout('layouts.admin');
+        Clearance::chunk(100, function ($chunk) use (&$clearances) {
+            foreach ($chunk as $clearance) {
+                $clearances[] = $clearance;
+            }
+        });
+
+        return view('livewire.admin.admin-clearance-component', [
+            'clearances' => $clearances
+        ])->layout('layouts.admin');
     }
 }

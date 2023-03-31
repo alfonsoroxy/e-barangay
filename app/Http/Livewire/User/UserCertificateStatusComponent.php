@@ -26,10 +26,16 @@ class UserCertificateStatusComponent extends Component
 
     public function render()
     {
-        $certificates = Certificate::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')
-            ->get();
+        $certificates = [];
 
-        return view('livewire.user.user-certificate-status-component')
-            ->with('certificates', $certificates)->layout('layouts.user');
+        Certificate::where('user_id', Auth::user()->id)->chunk(100, function ($chunk) use (&$certificates) {
+            foreach ($chunk as $certificate) {
+                $certificates[] = $certificate;
+            }
+        });
+
+        return view('livewire.user.user-certificate-status-component', [
+            'certificates' => $certificates
+        ])->layout('layouts.user');
     }
 }

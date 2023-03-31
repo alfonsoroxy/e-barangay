@@ -53,8 +53,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($barangay_officials->chunk(100) as $row)
-                                        @foreach ($row as $barangay_official)
+                                        @foreach ($barangay_officials as $barangay_official)
 
                                         <tr>
                                             <td class="d-flex justify-content-center">
@@ -106,7 +105,6 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        @endforeach
                                         @endforeach
                                         
                                     </tbody>

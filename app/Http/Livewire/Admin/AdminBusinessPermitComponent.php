@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AdminBusinessPermitComponent extends Component
 {
@@ -67,12 +68,11 @@ class AdminBusinessPermitComponent extends Component
         $business_permit->businessPermitBusinessname = $this->businessPermitBusinessname;
         $business_permit->businessPermitBusinessYearEstablish = $this->businessPermitBusinessYearEstablish;
 
-        $business_permit->businessPermitStatus = 'approved';
+        $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
+        $this->businessPermitImage->storeAs('business-permits', $imageName);
+        $business_permit->businessPermitImage = $imageName;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->businessPermitImage->getClientOriginalExtension();
-            request()->businessPermitImage->storeAs('business-permits', $imageName, 'documents');
-        }
+        $business_permit->businessPermitStatus = 'approved';
 
         $business_permit->save();
         return redirect()->route('admin.admin-business-permit')
@@ -112,7 +112,7 @@ class AdminBusinessPermitComponent extends Component
     {
         $business_permit = BusinessPermit::find($id);
 
-        // unlink('assets/dist/img/business-permits/' . $business_permit->businessPermitImage);
+        Storage::disk('local')->delete('business-permits/' . $business_permit->businessPermitImage);
         $business_permit->delete();
         return redirect()->route('admin.admin-business-permit')
             ->with('message', 'Business Permit has been deleted successfully! ');
@@ -120,12 +120,16 @@ class AdminBusinessPermitComponent extends Component
 
     public function render()
     {
-        $business_permits = BusinessPermit::all();
+        $business_permits = [];
 
-        return view(
-            'livewire.admin.admin-business-permit-component'
-        )
-            ->with('business_permits', $business_permits)
-            ->layout('layouts.admin');
+        BusinessPermit::chunk(100, function ($chunk) use (&$business_permits) {
+            foreach ($chunk as $business_permit) {
+                $business_permits[] = $business_permit;
+            }
+        });
+
+        return view('livewire.admin.admin-business-permit-component', [
+            'business_permits' => $business_permits
+        ])->layout('layouts.admin');
     }
 }

@@ -10,10 +10,17 @@ class AdminVerifyUserController extends Controller
 {
     public function index()
     {
-        //Send Users Tables to View
-        $users = User::all();
+        $users = [];
 
-        return view('admin.verify-user.verify-user', compact('users'));
+        User::chunk(100, function ($chunk) use (&$users) {
+            foreach ($chunk as $user) {
+                $users[] = $user;
+            }
+        });
+
+        return view('admin.verify-user.verify-user', [
+            'users' => $users
+        ]);
     }
 
     public function edit($user_id)

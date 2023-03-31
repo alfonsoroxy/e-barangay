@@ -26,13 +26,16 @@ class UserBusinessPermitStatusComponent extends Component
 
     public function render()
     {
-        $business_permits = BusinessPermit::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')
-            ->get();
+        $business_permits = [];
 
-        return view(
-            'livewire.user.user-business-permit-status-component'
-        )
-            ->with('business_permits', $business_permits)
-            ->layout('layouts.user');
+        BusinessPermit::where('user_id', Auth::user()->id)->chunk(100, function ($chunk) use (&$business_permits) {
+            foreach ($chunk as $business_permit) {
+                $business_permits[] = $business_permit;
+            }
+        });
+
+        return view('livewire.user.user-business-permit-status-component', [
+            'business_permits' => $business_permits
+        ])->layout('layouts.user');
     }
 }

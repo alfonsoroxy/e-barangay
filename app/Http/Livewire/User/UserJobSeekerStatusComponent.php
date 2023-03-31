@@ -26,13 +26,16 @@ class UserJobSeekerStatusComponent extends Component
 
     public function render()
     {
-        $job_seekers = JobSeeker::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')
-            ->get();
+        $job_seekers = [];
 
-        return view(
-            'livewire.user.user-job-seeker-status-component'
-        )
-            ->with('job_seekers', $job_seekers)
-            ->layout('layouts.user');
+        JobSeeker::where('user_id', Auth::user()->id)->chunk(100, function ($chunk) use (&$job_seekers) {
+            foreach ($chunk as $job_seeker) {
+                $job_seekers[] = $job_seeker;
+            }
+        });
+
+        return view('livewire.user.user-job-seeker-status-component', [
+            'job_seekers' => $job_seekers
+        ])->layout('layouts.user');
     }
 }

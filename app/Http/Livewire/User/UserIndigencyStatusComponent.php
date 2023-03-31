@@ -26,11 +26,16 @@ class UserIndigencyStatusComponent extends Component
 
     public function render()
     {
-        $indigencies = Indigency::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')
-            ->get();
+        $indigencies = [];
 
-        return view('livewire.user.user-indigency-status-component')
-            ->with('indigencies', $indigencies)
-            ->layout('layouts.user');
+        Indigency::where('user_id', Auth::user()->id)->chunk(100, function ($chunk) use (&$indigencies) {
+            foreach ($chunk as $indigency) {
+                $indigencies[] = $indigency;
+            }
+        });
+
+        return view('livewire.user.user-indigency-status-component', [
+            'indigencies' => $indigencies
+        ])->layout('layouts.user');
     }
 }

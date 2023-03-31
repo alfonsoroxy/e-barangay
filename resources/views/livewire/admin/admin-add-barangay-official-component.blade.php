@@ -88,7 +88,7 @@
                                                 <select class="form-control" wire:model="brgyOfficialStreetname">
                                                     <option value="">Select Address</option>
                                                     <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                    <option value="G. Masangkay St">G. Masangkay St</option>
+                                                    <option value="G Masangkay St">G Masangkay St</option>
                                                     <option value="Mayhaligue St">Mayhaligue St</option>
                                                 </select>
                                                 @error('brgyOfficialStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -136,14 +136,16 @@
                                                 <label>Upload Official Image (Max: 1MB, 1x1)<code>*</code></label>
                                                 <input id="brgyImage" type="file"
                                                     class="form-control" required wire:model="brgyImage">
-                                                    
-                                                    @if($brgyImage)
-                                                        <img src="{{ $brgyImage->temporaryUrl() }}" width="120" />
-                                                    @endif
 
                                                     @error('brgyImage') <p class="text-danger">{{ $message }}</p> @enderror
                             
                                             </div>
+
+                                            @if ($brgyImage)
+                                                <p class="card-text">Photo Preview:</p>
+                                                <img src="{{ $brgyImage->temporaryUrl() }}" width="100px" />
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>

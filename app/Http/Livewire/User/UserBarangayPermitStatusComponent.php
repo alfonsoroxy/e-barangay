@@ -25,11 +25,16 @@ class UserBarangayPermitStatusComponent extends Component
 
     public function render()
     {
-        $barangay_permits = BarangayPermit::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')
-            ->get();
+        $barangay_permits = [];
 
-        return view('livewire.user.user-barangay-permit-status-component')
-            ->with('barangay_permits', $barangay_permits)
-            ->layout('layouts.user');
+        BarangayPermit::where('user_id', Auth::user()->id)->chunk(100, function ($chunk) use (&$barangay_permits) {
+            foreach ($chunk as $barangay_permit) {
+                $barangay_permits[] = $barangay_permit;
+            }
+        });
+
+        return view('livewire.user.user-barangay-permit-status-component', [
+            'barangay_permits' => $barangay_permits
+        ])->layout('layouts.user');
     }
 }

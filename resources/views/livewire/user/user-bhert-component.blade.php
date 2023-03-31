@@ -253,7 +253,7 @@
                                             <select class="form-control" wire:model="bhertStreetname" required>
                                                 <option value="">Select Address</option>
                                                 <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                <option value="G. Masangkay St">G. Masangkay St</option>
+                                                <option value="G Masangkay St">G Masangkay St</option>
                                                 <option value="Mayhaligue St">Mayhaligue St</option>
                                             </select>
                                             @error('bhertStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -296,6 +296,12 @@
                                                 @error('bhertImage') <p class="text-danger">{{ $message }}</p> @enderror
                         
                                         </div>
+
+                                        @if ($bhertImage)
+                                            <p class="card-text">Photo Preview:</p>
+                                            <img src="{{ $bhertImage->temporaryUrl() }}" width="100px" />
+                                        @endif
+
                                     </div>
                                 </div>
                                 

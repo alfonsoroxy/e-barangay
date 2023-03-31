@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AdminCertificateComponent extends Component
 {
@@ -63,10 +64,9 @@ class AdminCertificateComponent extends Component
         $certificate->certificatePurpose = $this->certificatePurpose;
         $certificate->certificateOtherPurpose = $this->certificateOtherPurpose;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->certificateImage->getClientOriginalExtension();
-            request()->certificateImage->storeAs('certificates', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
+        $this->certificateImage->storeAs('certificates', $imageName);
+        $certificate->certificateImage = $imageName;
 
         $certificate->certificateStatus = 'approved';
 
@@ -106,7 +106,7 @@ class AdminCertificateComponent extends Component
     {
         $certificate = Certificate::find($id);
 
-        // unlink(public_path('assets/dist/img/certificates/' . $certificate->certificateImage));
+        Storage::disk('local')->delete('certificates/' . $certificate->certificateImage);
         $certificate->delete();
         return redirect()->route('admin.admin-certificate')
             ->with('message', 'Barangay Certificate has been deleted successfully! ');
@@ -114,10 +114,16 @@ class AdminCertificateComponent extends Component
 
     public function render()
     {
-        $certificates = Certificate::all();
+        $certificates = [];
 
-        return view('livewire.admin.admin-certificate-component')
-            ->with('certificates', $certificates)
-            ->layout('layouts.admin');
+        Certificate::chunk(100, function ($chunk) use (&$certificates) {
+            foreach ($chunk as $certificate) {
+                $certificates[] = $certificate;
+            }
+        });
+
+        return view('livewire.admin.admin-certificate-component', [
+            'certificates' => $certificates
+        ])->layout('layouts.admin');
     }
 }

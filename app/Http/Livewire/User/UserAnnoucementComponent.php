@@ -4,12 +4,15 @@ namespace App\Http\Livewire\User;
 
 use App\Models\Announcement;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class UserAnnoucementComponent extends Component
 {
+    use WithPagination;
+
     public function render()
     {
-        $announcements = Announcement::all();
+        $announcements = Announcement::paginate(10);
 
         return view(
             'livewire.user.user-annoucement-component'

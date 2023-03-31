@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->string('barangayPermitHousenumber');
             $table->enum('barangayPermitStreetname', [
-                'Bambang Cor Masangkay St', 'G. Masangkay St', 'Mayhaligue St'
+                'Bambang Cor Masangkay St', 'G Masangkay St', 'Mayhaligue St'
             ]);
 
             $table->string('barangayPermitImage')->nullable();

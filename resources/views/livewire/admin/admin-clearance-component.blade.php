@@ -62,8 +62,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-capitalize">
-                                        @foreach ($clearances->chunk(100) as $row)
-                                        @foreach ($row as $clearance)
+                                        @foreach ($clearances as $clearance)
 
                                         <tr class="text-capitalize">
                                             <td>{{ $clearance->id }}</td>
@@ -185,7 +184,6 @@
                                             </td>
                                         </tr>
                                         @endforeach
-                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -267,7 +265,7 @@
                                             <select class="form-control" wire:model="clearanceStreetname" required>
                                                 <option value="">Select Address</option>
                                                 <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                <option value="G. Masangkay St">G. Masangkay St</option>
+                                                <option value="G Masangkay St">G Masangkay St</option>
                                                 <option value="Mayhaligue St">Mayhaligue St</option>
                                             </select>
                                             @error('clearanceStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -328,6 +326,12 @@
                                                 @error('clearanceImage') <p class="text-danger">{{ $message }}</p> @enderror
                         
                                         </div>
+
+                                        @if ($clearanceImage)
+                                            <p class="card-text">Photo Preview:</p>
+                                            <img src="{{ $clearanceImage->temporaryUrl() }}" width="100px" />
+                                        @endif
+
                                     </div>
                                 </div>
                                 

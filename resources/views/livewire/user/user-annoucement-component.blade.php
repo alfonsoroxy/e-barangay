@@ -5,9 +5,10 @@
         <section class="content">
             <div class="container-fluid">
                 <h1 class="card-text text-center mb-3">Annoucements</h1>
-                @foreach ($announcements->chunk(100) as $row)
-                @foreach ($row as $announcement)
-
+                
+                @if(!$announcements->isEmpty())
+                @foreach ($announcements as $announcement)
+                    
                 <div class="row">
                     <div class="col-12">
                         <div class="card card-primary card-outline">
@@ -47,10 +48,21 @@
                         </div>
                     </div>
                 </div>
+                    
                 @endforeach
-                @endforeach
+
+                @else
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="text-center">There's no currently annoucement</p>
+                    </div>
+                </div>
+
+                @endif
 
             </div>
         </section>
+        {{ $announcements->links() }}
     </div>
 </div>

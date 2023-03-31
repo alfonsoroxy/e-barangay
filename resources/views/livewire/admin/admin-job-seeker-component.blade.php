@@ -64,8 +64,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-capitalize">
-                                        @foreach ($job_seekers->chunk(100) as $row)
-                                        @foreach ($row as $job_seeker)
+                                        @foreach ($job_seekers as $job_seeker)
 
                                         <tr class="text-capitalize">
                                             <td>{{ $job_seeker->id }}</td>
@@ -192,7 +191,6 @@
                                             </td>
                                         </tr>
                                         @endforeach
-                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -295,7 +293,7 @@
                                                 <select class="form-control" wire:model="jobSeekerStreetname" required>
                                                     <option value="">Select Address</option>
                                                     <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                    <option value="G. Masangkay St">G. Masangkay St</option>
+                                                    <option value="G Masangkay St">G Masangkay St</option>
                                                     <option value="Mayhaligue St">Mayhaligue St</option>
                                                 </select>
                                                 @error('jobSeekerStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -361,6 +359,12 @@
                                                     @error('jobSeekerImage') <p class="text-danger">{{ $message }}</p> @enderror
                             
                                             </div>
+
+                                            @if ($jobSeekerImage)
+                                                <p class="card-text">Photo Preview:</p>
+                                                <img src="{{ $jobSeekerImage->temporaryUrl() }}" width="100px" />
+                                            @endif
+
                                         </div>
                                     </div>
                                     

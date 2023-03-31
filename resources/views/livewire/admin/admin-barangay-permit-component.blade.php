@@ -56,8 +56,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-capitalize">
-                                        @foreach ($barangay_permits->chunk(100) as $row)
-                                        @foreach ($row as $barangay_permit)
+                                        @foreach ($barangay_permits as $barangay_permit)
 
                                         <tr class="text-capitalize">
                                             <td>{{ $barangay_permit->id }}</td>
@@ -172,14 +171,13 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{asset('assets/dist/img/barangay-permits/'.$barangay_permit->barangayPermitImage)}}" 
+                                                <a href="{{ secure_asset('assets/dist/img/barangay-permits/'.$barangay_permit->barangayPermitImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Barangay Permit" class="profile-user-img img-fluid img-square"
-                                                    src="{{asset('assets/dist/img/barangay-permits/'.$barangay_permit->barangayPermitImage)}}" />
+                                                    src="{{ secure_asset('assets/dist/img/barangay-permits/'.$barangay_permit->barangayPermitImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>
-                                        @endforeach
                                         @endforeach
 
                                     </tbody>
@@ -233,7 +231,7 @@
                                             <select class="form-control" wire:model="barangayPermitStreetname" required>
                                                 <option value="">Select Address</option>
                                                 <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                <option value="G. Masangkay St">G. Masangkay St</option>
+                                                <option value="G Masangkay St">G Masangkay St</option>
                                                 <option value="Mayhaligue St">Mayhaligue St</option>
                                                 
                                             </select>
@@ -255,6 +253,12 @@
                                                     
                                                     @error('barangayPermitImage') <p class="text-danger">{{ $message }}</p> @enderror
                                             </div>
+                                            
+                                            @if ($barangayPermitImage)
+                                                <p class="card-text">Photo Preview:</p>
+                                                <img src="{{ $barangayPermitImage->temporaryUrl() }}" width="100px" />
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>

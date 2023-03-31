@@ -60,8 +60,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-capitalize">
-                                        @foreach ($certificates->chunk(100) as $row)
-                                        @foreach ($row as $certificate)
+                                        @foreach ($certificates as $certificate)
 
                                         <tr class="text-capitalize">
                                             <td>{{ $certificate->id }}</td>
@@ -185,7 +184,6 @@
                                             </td>
                                         </tr>
                                         @endforeach
-                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -267,7 +265,7 @@
                                             <select class="form-control" wire:model="certificateStreetname" required>
                                                 <option value="">Select Address</option>
                                                 <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                <option value="G. Masangkay St">G. Masangkay St</option>
+                                                <option value="G Masangkay St">G Masangkay St</option>
                                                 <option value="Mayhaligue St">Mayhaligue St</option>
                                             </select>
                                             @error('certificateStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -329,6 +327,12 @@
                                                 @error('certificateImage') <p class="text-danger">{{ $message }}</p> @enderror
                         
                                         </div>
+
+                                        @if ($certificateImage)
+                                            <p class="card-text">Photo Preview:</p>
+                                            <img src="{{ $certificateImage->temporaryUrl() }}" width="100px" />
+                                        @endif
+
                                     </div>
                                 </div>
                                 

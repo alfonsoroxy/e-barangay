@@ -10,10 +10,17 @@ class AdminUserRoleController extends Controller
 {
     public function index()
     {
-        //Send Users Tables to View
-        $users = User::all();
+        $users = [];
 
-        return view('admin.user-role.user-role', compact('users'));
+        User::chunk(100, function ($chunk) use (&$users) {
+            foreach ($chunk as $user) {
+                $users[] = $user;
+            }
+        });
+
+        return view('admin.user-role.user-role', [
+            'users' => $users
+        ]);
     }
 
     public function edit($user_id)

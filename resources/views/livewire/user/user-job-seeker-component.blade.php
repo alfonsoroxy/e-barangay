@@ -309,7 +309,7 @@
                                             <select class="form-control" wire:model="jobSeekerStreetname" required>
                                                 <option value="">Select Address</option>
                                                 <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                <option value="G. Masangkay St">G. Masangkay St</option>
+                                                <option value="G Masangkay St">G Masangkay St</option>
                                                 <option value="Mayhaligue St">Mayhaligue St</option>
                                             </select>
                                             @error('jobSeekerStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -375,6 +375,12 @@
                                                 @error('jobSeekerImage') <p class="text-danger">{{ $message }}</p> @enderror
                         
                                         </div>
+
+                                        @if ($jobSeekerImage)
+                                            <p class="card-text">Photo Preview:</p>
+                                            <img src="{{ $jobSeekerImage->temporaryUrl() }}" width="100px" />
+                                        @endif
+
                                     </div>
                                 </div>
                                 

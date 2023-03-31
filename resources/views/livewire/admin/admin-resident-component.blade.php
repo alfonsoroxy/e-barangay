@@ -55,8 +55,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($users->chunk(100) as $row)
-                                        @foreach ($row as $user)
+                                        @foreach ($users as $user)
 
                                         <tr class="text-capitalize">
                                             
@@ -87,7 +86,6 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        @endforeach
                                         @endforeach
 
                                     </tbody>

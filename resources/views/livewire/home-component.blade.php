@@ -153,8 +153,7 @@
                 <div class="col-md-6">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            @foreach ($barangay_officials->chunk(20) as $row)
-                            @foreach ($row as $barangay_official)
+                            @foreach ($barangay_officials as $barangay_official)
 
                             <div class="carousel-item {{ $loop->iteration == 1 ? 'active' : '' }}">
                                 <div class="card card-primary card-outline d-block w-100">
@@ -178,7 +177,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
                             @endforeach
 
                         </div>
@@ -207,8 +205,7 @@
                     </div> 
                 </div>
                 @if(!$announcements->isEmpty())
-                @foreach ($announcements->chunk(100) as $row)
-                @foreach ($row as $announcement)
+                @foreach ($announcements as $announcement)
                     
                 <div class="row">
                     <div class="col-12">
@@ -251,7 +248,6 @@
                 </div>
                     
                 @endforeach
-                @endforeach
 
                 @else
 
@@ -265,6 +261,7 @@
 
             </div>
         </div>
+        {{ $announcements->links() }}
     </div>
 
 </div>

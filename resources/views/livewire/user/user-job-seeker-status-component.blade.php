@@ -63,8 +63,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($job_seekers->chunk(100) as $row)
-                                        @foreach ($row as $job_seeker)
+                                        @foreach ($job_seekers as $job_seeker)
                                         
                                         <tr class="text-capitalize">
                                             <td>{{ $job_seeker->id }}</td>
@@ -127,7 +126,6 @@
                                                 </a>
                                             </td>                                      
                                         </tr>
-                                        @endforeach
                                         @endforeach
                                         
                                     </tbody>

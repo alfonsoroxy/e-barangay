@@ -62,8 +62,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($certificates->chunk(100) as $row)
-                                        @foreach ($row as $certificate)
+                                        @foreach ($certificates as $certificate)
 
                                         <tr class="text-capitalize">
                                             <td>{{ $certificate->id }}</td>
@@ -123,7 +122,6 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                        @endforeach
                                         @endforeach
 
                                     </tbody>

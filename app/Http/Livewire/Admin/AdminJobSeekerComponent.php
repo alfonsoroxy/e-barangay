@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AdminJobSeekerComponent extends Component
 {
@@ -78,10 +79,9 @@ class AdminJobSeekerComponent extends Component
         $job_seeker->jobSeekerAge = $this->jobSeekerAge;
         $job_seeker->jobSeekerResidentstayyears = $this->jobSeekerResidentstayyears;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->jobSeekerImage->getClientOriginalExtension();
-            request()->jobSeekerImage->storeAs('job-seekers', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->jobSeekerImage->extension();
+        $this->jobSeekerImage->storeAs('job-seekers', $imageName);
+        $job_seeker->jobSeekerImage = $imageName;
 
         $job_seeker->jobSeekerStatus = 'approved';
 
@@ -121,7 +121,7 @@ class AdminJobSeekerComponent extends Component
     {
         $job_seeker = JobSeeker::find($id);
 
-        // unlink(public_path('assets/dist/img/job-seekers/' . $job_seeker->jobSeekerImage));
+        Storage::disk('local')->delete('job-seekers/' . $job_seeker->jobSeekerImage);
         $job_seeker->delete();
         return redirect()->route('admin.admin-job-seeker')
             ->with('message', 'First Time Job Seeker has been deleted successfully! ');
@@ -129,12 +129,16 @@ class AdminJobSeekerComponent extends Component
 
     public function render()
     {
-        $job_seekers = JobSeeker::all();
+        $job_seekers = [];
 
-        return view(
-            'livewire.admin.admin-job-seeker-component',
-        )
-            ->with('job_seekers', $job_seekers)
-            ->layout('layouts.admin');
+        JobSeeker::chunk(100, function ($chunk) use (&$job_seekers) {
+            foreach ($chunk as $job_seeker) {
+                $job_seekers[] = $job_seeker;
+            }
+        });
+
+        return view('livewire.admin.admin-job-seeker-component', [
+            'job_seekers' => $job_seekers
+        ])->layout('layouts.admin');
     }
 }

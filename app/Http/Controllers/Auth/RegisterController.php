@@ -84,7 +84,7 @@ class RegisterController extends Controller
     {
         if (request()->hasfile('image')) {
             $imageName = time() . '.' . request()->image->getClientOriginalExtension();
-            request()->image->storeAs('verification', $imageName, 'documents');
+            request()->image->storeAs('verification', $imageName);
         }
         return User::create([
             'first_name' => $data['first_name'],

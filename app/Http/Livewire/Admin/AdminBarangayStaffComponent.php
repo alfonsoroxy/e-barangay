@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
 
 class AdminBarangayStaffComponent extends Component
 {
@@ -12,7 +13,7 @@ class AdminBarangayStaffComponent extends Component
     {
         $user = User::find($id);
 
-        // unlink(public_path('assets/dist/img/verification/' . $user->image));
+        Storage::disk('local')->delete('verification/' . $user->image);
         $user->delete();
         return redirect()->route('admin.admin-barangay-staff')
             ->with('message', 'Barangay Staff has been deleted successfully! ');
@@ -20,9 +21,16 @@ class AdminBarangayStaffComponent extends Component
 
     public function render()
     {
-        $users = User::where('is_admin', '=', 'ADM')->get();
+        $users = [];
 
-        return view('livewire.admin.admin-barangay-staff-component')
-            ->with('users', $users)->layout('layouts.admin');
+        User::where('is_admin', '=', 'ADM')->chunk(100, function ($chunk) use (&$users) {
+            foreach ($chunk as $user) {
+                $users[] = $user;
+            }
+        });
+
+        return view('livewire.admin.admin-barangay-staff-component', [
+            'users' => $users
+        ])->layout('layouts.admin');
     }
 }

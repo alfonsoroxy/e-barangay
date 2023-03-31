@@ -60,8 +60,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($indigencies->chunk(100) as $row)
-                                        @foreach ($row as $indigency)
+                                        @foreach ($indigencies as $indigency)
 
                                         <tr class="text-capitalize">
                                             <td>{{ $indigency->id }}</td>
@@ -185,7 +184,6 @@
                                             </td>
                                         </tr>
                                         @endforeach
-                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -267,7 +265,7 @@
                                             <select class="form-control" wire:model="indigencyStreetname" required>
                                                 <option value="">Select Address</option>
                                                 <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                <option value="G. Masangkay St">G. Masangkay St</option>
+                                                <option value="G Masangkay St">G Masangkay St</option>
                                                 <option value="Mayhaligue St">Mayhaligue St</option>
                                             </select>
                                             @error('indigencyStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -304,6 +302,12 @@
                                                 @error('indigencyImage') <p class="text-danger">{{ $message }}</p> @enderror
                         
                                         </div>
+
+                                        @if ($indigencyImage)
+                                            <p class="card-text">Photo Preview:</p>
+                                            <img src="{{ $indigencyImage->temporaryUrl() }}" width="100px" />
+                                        @endif
+
                                     </div>
                                 </div>
                                 

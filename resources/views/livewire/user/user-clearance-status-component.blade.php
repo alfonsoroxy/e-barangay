@@ -61,8 +61,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($clearances->chunk(100) as $row)
-                                            @foreach ($row as $clearance)
+                                            @foreach ($clearances as $clearance)
                                             
                                             <tr class="text-capitalize">
                                                 <td>{{ $clearance->id }}</td>
@@ -120,7 +119,6 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                            @endforeach
                                             @endforeach
 
                                         </tbody>

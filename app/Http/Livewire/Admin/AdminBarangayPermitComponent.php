@@ -6,7 +6,8 @@ use App\Models\BarangayPermit;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class AdminBarangayPermitComponent extends Component
@@ -48,10 +49,9 @@ class AdminBarangayPermitComponent extends Component
         $barangay_permit->barangayPermitHousenumber = $this->barangayPermitHousenumber;
         $barangay_permit->barangayPermitStreetname = $this->barangayPermitStreetname;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->barangayPermitImage->getClientOriginalExtension();
-            request()->barangayPermitImage->storeAs('barangay-permits', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
+        $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
+        $barangay_permit->barangayPermitImage = $imageName;
 
         $barangay_permit->barangayPermitStatus = 'approved';
 
@@ -89,10 +89,8 @@ class AdminBarangayPermitComponent extends Component
     public function deleteBarangayPermit($id)
     {
         $barangay_permit = BarangayPermit::find($id);
-        // Storage::disk('public')->delete($image->path);
-        // $image->delete();
 
-        // unlink(public_path('assets/dist/img/barangay-permits/' . $barangay_permit->barangayPermitImage));
+        Storage::disk('local')->delete('barangay-permits/' . $barangay_permit->barangayPermitImage);
         $barangay_permit->delete();
         return redirect()->route('admin.admin-barangay-permit')
             ->with('message', 'Barangay Permit has been deleted successfully! ');
@@ -100,10 +98,16 @@ class AdminBarangayPermitComponent extends Component
 
     public function render()
     {
-        $barangay_permits = BarangayPermit::all();
+        $barangay_permits = [];
 
-        return view('livewire.admin.admin-barangay-permit-component')
-            ->with('barangay_permits', $barangay_permits)
-            ->layout('layouts.admin');
+        BarangayPermit::chunk(100, function ($chunk) use (&$barangay_permits) {
+            foreach ($chunk as $barangay_permit) {
+                $barangay_permits[] = $barangay_permit;
+            }
+        });
+
+        return view('livewire.admin.admin-barangay-permit-component', [
+            'barangay_permits' => $barangay_permits
+        ])->layout('layouts.admin');
     }
 }

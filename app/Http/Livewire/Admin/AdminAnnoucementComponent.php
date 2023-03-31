@@ -19,12 +19,16 @@ class AdminAnnoucementComponent extends Component
 
     public function render()
     {
-        $announcements = Announcement::all();
+        $announcements = [];
 
-        return view(
-            'livewire.admin.admin-annoucement-component'
-        )
-            ->with('announcements', $announcements)
-            ->layout('layouts.admin');
+        Announcement::chunk(100, function ($chunk) use (&$announcements) {
+            foreach ($chunk as $announcement) {
+                $announcements[] = $announcement;
+            }
+        });
+
+        return view('livewire.admin.admin-annoucement-component', [
+            'announcements' => $announcements
+        ])->layout('layouts.admin');
     }
 }

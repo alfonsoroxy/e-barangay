@@ -26,12 +26,16 @@ class UserClearanceStatusComponent extends Component
 
     public function render()
     {
-        // $clearances = Clearance::all();
-        $clearances = Clearance::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')
-            ->get();
+        $clearances = [];
 
-        return view('livewire.user.user-clearance-status-component')
-            ->with('clearances', $clearances)
-            ->layout('layouts.user');
+        Clearance::where('user_id', Auth::user()->id)->chunk(100, function ($chunk) use (&$clearances) {
+            foreach ($chunk as $clearance) {
+                $clearances[] = $clearance;
+            }
+        });
+
+        return view('livewire.user.user-clearance-status-component', [
+            'clearances' => $clearances
+        ])->layout('layouts.user');
     }
 }

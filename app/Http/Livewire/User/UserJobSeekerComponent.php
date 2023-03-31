@@ -77,10 +77,9 @@ class UserJobSeekerComponent extends Component
         $job_seeker->jobSeekerAge = $this->jobSeekerAge;
         $job_seeker->jobSeekerResidentstayyears = $this->jobSeekerResidentstayyears;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->jobSeekerImage->getClientOriginalExtension();
-            request()->jobSeekerImage->storeAs('job-seekers', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->jobSeekerImage->extension();
+        $this->jobSeekerImage->storeAs('job-seekers', $imageName);
+        $job_seeker->jobSeekerImage = $imageName;
 
         $job_seeker->jobSeekerStatus = 'pending';
 

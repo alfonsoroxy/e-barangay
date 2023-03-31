@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AdminIndigencyComponent extends Component
 {
@@ -64,10 +65,9 @@ class AdminIndigencyComponent extends Component
 
         $indigency->indigencyPurpose = $this->indigencyPurpose;
 
-        if (request()->hasfile('image')) {
-            $imageName = time() . '.' . request()->indigencyImage->getClientOriginalExtension();
-            request()->indigencyImage->storeAs('indigencies', $imageName, 'documents');
-        }
+        $imageName = Carbon::now()->timestamp . '.' . $this->indigencyImage->extension();
+        $this->indigencyImage->storeAs('indigencies', $imageName);
+        $indigency->indigencyImage = $imageName;
 
         $indigency->indigencyStatus = 'approved';
 
@@ -107,7 +107,7 @@ class AdminIndigencyComponent extends Component
     {
         $indigency = Indigency::find($id);
 
-        // unlink(public_path('assets/dist/img/indigencies/' . $indigency->indigencyImage));
+        Storage::disk('local')->delete('indigencies/' . $indigency->indigencyImage);
         $indigency->delete();
         return redirect()->route('admin.admin-indigency')
             ->with('message', 'Barangay Indigency has been deleted successfully! ');
@@ -115,10 +115,16 @@ class AdminIndigencyComponent extends Component
 
     public function render()
     {
-        $indigencies = Indigency::all();
+        $indigencies = [];
 
-        return view('livewire.admin.admin-indigency-component')
-            ->with('indigencies', $indigencies)
-            ->layout('layouts.admin');
+        Indigency::chunk(100, function ($chunk) use (&$indigencies) {
+            foreach ($chunk as $indigency) {
+                $indigencies[] = $indigency;
+            }
+        });
+
+        return view('livewire.admin.admin-indigency-component', [
+            'indigencies' => $indigencies
+        ])->layout('layouts.admin');
     }
 }

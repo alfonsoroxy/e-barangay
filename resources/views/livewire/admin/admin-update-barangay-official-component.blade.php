@@ -89,7 +89,7 @@
                                                 <select class="form-control" wire:model="brgyOfficialStreetname">
                                                     <option value="">Select Address</option>
                                                     <option value="Bambang Cor Masangkay St">Bambang Cor Masangkay St</option>
-                                                    <option value="G. Masangkay St">G. Masangkay St</option>
+                                                    <option value="G Masangkay St">G Masangkay St</option>
                                                     <option value="Mayhaligue St">Mayhaligue St</option>
                                                 </select>
                                                 @error('brgyOfficialStreetname') <p class="text-danger">{{ $message }}</p> @enderror
@@ -137,9 +137,10 @@
                                                 <input id="brgyImage" type="file"
                                                     class="form-control" wire:model="brgyNewImage" />
                                                     @if($brgyNewImage)
-                                                        <img src="{{ $brgyNewImage->temporaryUrl() }}" width="120" />
+                                                        <p class="card-text">Photo Preview:</p>
+                                                        <img src="{{ $brgyNewImage->temporaryUrl() }}" width="100" />
                                                     @else
-                                                        <img src="{{ asset('assets/dist/img/barangay-officials') }} / {{ $brgyImage }}" width="120" />
+                                                        <img src="{{ asset('assets/dist/img/barangay-officials/') }} {{ $brgyImage }}" width="120" />
                                                     @endif
 
                                                     @error('brgyImage') <p class="text-danger">{{ $message }}</p> @enderror
