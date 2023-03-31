@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,23 +29,18 @@ return [
     */
 
     'disks' => [
-
-        //Path For Adding Request Documents or Barangay Officials
-        'documents' => [
-            'driver' => 'local',
-            'root'   => public_path() . '/assets/dist/img/',
-        ],
-
         'local' => [
             'driver' => 'local',
-            // 'root' => storage_path('app'),
-            'root'   => public_path() . '/assets/dist/img/',
+            'root' => storage_path('app'),
+            // 'root' => public_path() . '/assets/dist/img/',
+            'throw' => false,
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL') . '/storage',
+            // 'root' => storage_path('assets/dist/img/'),
+            'root' => public_path() . '/assets/dist/img/',
+            'url' => env('APP_URL') . '/assets/dist/img/',
             'visibility' => 'public',
         ],
 

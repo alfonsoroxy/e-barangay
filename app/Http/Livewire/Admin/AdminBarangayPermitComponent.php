@@ -25,8 +25,20 @@ class AdminBarangayPermitComponent extends Component
         'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
         'barangayPermitStreetname' => 'required',
 
-        'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+        'barangayPermitImage' => 'image|mimes:jpg,jpeg,png|max:1024',
     ];
+
+    public function updated($fields)
+    {
+        $this->validateOnly($fields, [
+            'barangayPermitName' => 'required|string|max:255',
+
+            'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+            'barangayPermitStreetname' => 'required',
+
+            'barangayPermitImage' => 'image|mimes:jpg,jpeg,png|max:1024',
+        ]);
+    }
 
     public function addBarangayPermit()
     {
@@ -36,7 +48,7 @@ class AdminBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'barangayPermitImage' => 'image|mimes:jpg,jpeg,png|max:1024',
         ]);
 
         $barangay_permit = new BarangayPermit();
@@ -48,8 +60,8 @@ class AdminBarangayPermitComponent extends Component
 
         if ($this->barangayPermitImage) {
             $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
-            Storage::disk('local')->put($imageName, 'barangay-permits');
-            // $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
+            // Storage::disk('public')->storeAs('barangay-permits',  $this->barangayPermitImage('barangayPermitImage'));
+            $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
             $barangay_permit->barangayPermitImage = $imageName;
         }
 
@@ -90,7 +102,7 @@ class AdminBarangayPermitComponent extends Component
     {
         $barangay_permit = BarangayPermit::find($id);
 
-        Storage::disk('local')->delete('barangay-permits/' . $barangay_permit->barangayPermitImage);
+        Storage::disk('public')->delete('barangay-permits/' . $barangay_permit->barangayPermitImage);
         $barangay_permit->delete();
         return redirect()->route('admin.admin-barangay-permit')
             ->with('message', 'Barangay Permit has been deleted successfully! ');
