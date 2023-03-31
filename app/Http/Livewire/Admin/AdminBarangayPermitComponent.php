@@ -19,21 +19,18 @@ class AdminBarangayPermitComponent extends Component
     public $barangayPermitHousenumber, $barangayPermitStreetname;
     public $barangayPermitImage;
 
-    public function updated($fields)
-    {
-        $this->validateOnly($fields, [
-            'barangayPermitName' => 'required|string|max:255',
+    protected $rules = [
+        'barangayPermitName' => 'required|string|max:255',
 
-            'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
-            'barangayPermitStreetname' => 'required',
+        'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
-        ]);
-    }
+        'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+    ];
 
     public function addBarangayPermit()
     {
-        $validatedData = $this->validate([
+        $this->validate([
             'barangayPermitName' => 'required|string|max:255',
 
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
