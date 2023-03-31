@@ -33,7 +33,7 @@ class AdminBarangayPermitComponent extends Component
 
     public function addBarangayPermit()
     {
-        $this->validate([
+        $validatedData = $this->validate([
             'barangayPermitName' => 'required|string|max:255',
 
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
@@ -49,9 +49,11 @@ class AdminBarangayPermitComponent extends Component
         $barangay_permit->barangayPermitHousenumber = $this->barangayPermitHousenumber;
         $barangay_permit->barangayPermitStreetname = $this->barangayPermitStreetname;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
-        $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
-        $barangay_permit->barangayPermitImage = $imageName;
+        if ($this->barangayPermitImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
+            $this->barangayPermitImage->storeAs('barangay-permits', $imageName, 'documents');
+            $barangay_permit->barangayPermitImage = $imageName;
+        }
 
         $barangay_permit->barangayPermitStatus = 'approved';
 

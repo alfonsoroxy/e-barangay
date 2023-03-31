@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'documents'),
 
     /*
     |--------------------------------------------------------------------------
@@ -33,8 +33,7 @@ return [
         //Path For Adding Request Documents or Barangay Officials
         'documents' => [
             'driver' => 'local',
-            'root' => public_path('assets/dist/img/'),
-            'throw' => false,
+            'root'   => public_path() . '/assets/dist/img/',
         ],
 
         'local' => [
