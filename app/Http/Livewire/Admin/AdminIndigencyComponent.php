@@ -109,7 +109,7 @@ class AdminIndigencyComponent extends Component
     {
         $indigency = Indigency::find($id);
 
-        Storage::disk('public')->delete('indigencies/' . $indigency->indigencyImage);
+        Storage::disk('local')->delete('indigencies/' . $indigency->indigencyImage);
         $indigency->delete();
         return redirect()->route('admin.admin-indigency')
             ->with('message', 'Barangay Indigency has been deleted successfully! ');

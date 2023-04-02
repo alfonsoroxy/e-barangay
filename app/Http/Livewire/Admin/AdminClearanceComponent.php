@@ -114,7 +114,7 @@ class AdminClearanceComponent extends Component
     {
         $clearance = Clearance::find($id);
 
-        Storage::disk('public')->delete('clearances/' . $clearance->clearanceImage);
+        Storage::disk('local')->delete('clearances/' . $clearance->clearanceImage);
         $clearance->delete();
         return redirect()->route('admin.admin-clearance')
             ->with('message', 'Barangay Clearance has been deleted successfully! ');

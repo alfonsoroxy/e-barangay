@@ -108,7 +108,7 @@ class AdminCertificateComponent extends Component
     {
         $certificate = Certificate::find($id);
 
-        Storage::disk('public')->delete('certificates/' . $certificate->certificateImage);
+        Storage::disk('local')->delete('certificates/' . $certificate->certificateImage);
         $certificate->delete();
         return redirect()->route('admin.admin-certificate')
             ->with('message', 'Barangay Certificate has been deleted successfully! ');

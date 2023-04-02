@@ -13,7 +13,7 @@ class AdminBarangayStaffComponent extends Component
     {
         $user = User::find($id);
 
-        Storage::disk('public')->delete('verification/' . $user->image);
+        Storage::disk('local')->delete('verification/' . $user->image);
         $user->delete();
         return redirect()->route('admin.admin-barangay-staff')
             ->with('message', 'Barangay Staff has been deleted successfully! ');

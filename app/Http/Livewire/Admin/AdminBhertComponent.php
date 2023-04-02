@@ -111,7 +111,7 @@ class AdminBhertComponent extends Component
     {
         $bhert = BHERT::find($id);
 
-        Storage::disk('public')->delete('bherts/' . $bhert->bhertImage);
+        Storage::disk('local')->delete('bherts/' . $bhert->bhertImage);
         $bhert->delete();
         return redirect()->route('admin.admin-bhert')
             ->with('message', 'BHERT Certificate has been deleted successfully! ');

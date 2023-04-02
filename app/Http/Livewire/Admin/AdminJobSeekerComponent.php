@@ -123,7 +123,7 @@ class AdminJobSeekerComponent extends Component
     {
         $job_seeker = JobSeeker::find($id);
 
-        Storage::disk('public')->delete('job-seekers/' . $job_seeker->jobSeekerImage);
+        Storage::disk('local')->delete('job-seekers/' . $job_seeker->jobSeekerImage);
         $job_seeker->delete();
         return redirect()->route('admin.admin-job-seeker')
             ->with('message', 'First Time Job Seeker has been deleted successfully! ');

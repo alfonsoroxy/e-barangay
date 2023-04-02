@@ -102,7 +102,7 @@ class AdminBarangayPermitComponent extends Component
     {
         $barangay_permit = BarangayPermit::find($id);
 
-        Storage::disk('public')->delete('barangay-permits/' . $barangay_permit->barangayPermitImage);
+        Storage::disk('local')->delete('barangay-permits/' . $barangay_permit->barangayPermitImage);
         $barangay_permit->delete();
         return redirect()->route('admin.admin-barangay-permit')
             ->with('message', 'Barangay Permit has been deleted successfully! ');
