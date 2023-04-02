@@ -64,9 +64,11 @@ class AdminCertificateComponent extends Component
         $certificate->certificatePurpose = $this->certificatePurpose;
         $certificate->certificateOtherPurpose = $this->certificateOtherPurpose;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
-        $this->certificateImage->storeAs('certificates', $imageName);
-        $certificate->certificateImage = $imageName;
+        if ($this->certificateImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
+            $this->certificateImage->storeAs('certificates', $imageName);
+            $certificate->certificateImage = $imageName;
+        }
 
         $certificate->certificateStatus = 'approved';
 
@@ -106,7 +108,7 @@ class AdminCertificateComponent extends Component
     {
         $certificate = Certificate::find($id);
 
-        Storage::disk('local')->delete('certificates/' . $certificate->certificateImage);
+        Storage::disk('public')->delete('certificates/' . $certificate->certificateImage);
         $certificate->delete();
         return redirect()->route('admin.admin-certificate')
             ->with('message', 'Barangay Certificate has been deleted successfully! ');

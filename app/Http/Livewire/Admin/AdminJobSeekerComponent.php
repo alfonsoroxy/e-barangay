@@ -79,9 +79,11 @@ class AdminJobSeekerComponent extends Component
         $job_seeker->jobSeekerAge = $this->jobSeekerAge;
         $job_seeker->jobSeekerResidentstayyears = $this->jobSeekerResidentstayyears;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->jobSeekerImage->extension();
-        $this->jobSeekerImage->storeAs('job-seekers', $imageName);
-        $job_seeker->jobSeekerImage = $imageName;
+        if ($this->jobSeekerImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->jobSeekerImage->extension();
+            $this->jobSeekerImage->storeAs('job-seekers', $imageName);
+            $job_seeker->jobSeekerImage = $imageName;
+        }
 
         $job_seeker->jobSeekerStatus = 'approved';
 
@@ -121,7 +123,7 @@ class AdminJobSeekerComponent extends Component
     {
         $job_seeker = JobSeeker::find($id);
 
-        Storage::disk('local')->delete('job-seekers/' . $job_seeker->jobSeekerImage);
+        Storage::disk('public')->delete('job-seekers/' . $job_seeker->jobSeekerImage);
         $job_seeker->delete();
         return redirect()->route('admin.admin-job-seeker')
             ->with('message', 'First Time Job Seeker has been deleted successfully! ');

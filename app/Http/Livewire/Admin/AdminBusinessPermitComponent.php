@@ -68,9 +68,11 @@ class AdminBusinessPermitComponent extends Component
         $business_permit->businessPermitBusinessname = $this->businessPermitBusinessname;
         $business_permit->businessPermitBusinessYearEstablish = $this->businessPermitBusinessYearEstablish;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
-        $this->businessPermitImage->storeAs('business-permits', $imageName);
-        $business_permit->businessPermitImage = $imageName;
+        if ($this->businessPermitImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
+            $this->businessPermitImage->storeAs('business-permits', $imageName);
+            $business_permit->businessPermitImage = $imageName;
+        }
 
         $business_permit->businessPermitStatus = 'approved';
 
@@ -112,7 +114,7 @@ class AdminBusinessPermitComponent extends Component
     {
         $business_permit = BusinessPermit::find($id);
 
-        Storage::disk('local')->delete('business-permits/' . $business_permit->businessPermitImage);
+        Storage::disk('public')->delete('business-permits/' . $business_permit->businessPermitImage);
         $business_permit->delete();
         return redirect()->route('admin.admin-business-permit')
             ->with('message', 'Business Permit has been deleted successfully! ');

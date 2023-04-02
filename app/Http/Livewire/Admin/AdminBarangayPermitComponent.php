@@ -60,7 +60,7 @@ class AdminBarangayPermitComponent extends Component
 
         if ($this->barangayPermitImage) {
             $imageName = Carbon::now()->timestamp . '.' . $this->barangayPermitImage->extension();
-            // Storage::disk('public')->storeAs('barangay-permits',  $this->barangayPermitImage('barangayPermitImage'));
+            // $this->barangayPermitImage->Storage::disk('public')->storeAs('barangay-permits', $imageName);
             $this->barangayPermitImage->storeAs('barangay-permits', $imageName);
             $barangay_permit->barangayPermitImage = $imageName;
         }

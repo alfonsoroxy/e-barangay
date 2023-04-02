@@ -62,9 +62,11 @@ class UserCertificateComponent extends Component
         $certificate->certificatePurpose = $this->certificatePurpose;
         $certificate->certificateOtherPurpose = $this->certificateOtherPurpose;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
-        $this->certificateImage->storeAs('certificates', $imageName);
-        $certificate->certificateImage = $imageName;
+        if ($this->certificateImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->certificateImage->extension();
+            $this->certificateImage->storeAs('certificates', $imageName);
+            $certificate->certificateImage = $imageName;
+        }
 
         $certificate->certificateStatus = 'pending';
 

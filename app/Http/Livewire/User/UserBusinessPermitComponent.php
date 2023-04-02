@@ -68,9 +68,11 @@ class UserBusinessPermitComponent extends Component
 
         $business_permit->businessPermitStatus = 'pending';
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
-        $this->businessPermitImage->storeAs('business-permits', $imageName);
-        $business_permit->businessPermitImage = $imageName;
+        if ($this->businessPermitImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->businessPermitImage->extension();
+            $this->businessPermitImage->storeAs('business-permits', $imageName);
+            $business_permit->businessPermitImage = $imageName;
+        }
 
         $business_permit->save();
         return redirect()->route('user.user-business-permit-status')

@@ -69,9 +69,11 @@ class UserClearanceComponent extends Component
         $clearance->clearanceGender = $this->clearanceGender;
         $clearance->clearanceMaritalstatus = $this->clearanceMaritalstatus;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->clearanceImage->extension();
-        $this->clearanceImage->storeAs('clearances', $imageName);
-        $clearance->clearanceImage = $imageName;
+        if ($this->clearanceImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->clearanceImage->extension();
+            $this->clearanceImage->storeAs('clearances', $imageName);
+            $clearance->clearanceImage = $imageName;
+        }
 
         $clearance->clearanceStatus = 'pending';
 

@@ -12,7 +12,7 @@ class AdminBarangayOfficialComponent extends Component
     {
         $barangay_official = BarangayOfficial::find($id);
 
-        Storage::disk('local')->delete('barangay-officials/' . $barangay_official->brgyImage);
+        Storage::disk('public')->delete('barangay-officials/' . $barangay_official->brgyImage);
         $barangay_official->delete();
 
         return redirect()->route('admin.admin-barangay-official')

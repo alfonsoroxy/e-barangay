@@ -65,9 +65,11 @@ class UserBhertComponent extends Component
         $bhert->bhertPurpose = $this->bhertPurpose;
         $bhert->bhertAge = $this->bhertAge;
 
-        $imageName = Carbon::now()->timestamp . '.' . $this->bhertImage->extension();
-        $this->bhertImage->storeAs('bherts', $imageName);
-        $bhert->bhertImage = $imageName;
+        if ($this->bhertImage) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->bhertImage->extension();
+            $this->bhertImage->storeAs('bherts', $imageName);
+            $bhert->bhertImage = $imageName;
+        }
 
         $bhert->bhertStatus = 'pending';
 
