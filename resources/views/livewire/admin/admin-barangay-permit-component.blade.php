@@ -171,10 +171,10 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ url('storage/barangay-permits/' . $barangay_permit->barangayPermitImage) }}" 
+                                                <a href="{{ Storage::disk('local')->url('storage/barangay-permits/' . $barangay_permit->barangayPermitImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Barangay Permit" class="profile-user-img img-fluid img-square"
-                                                    src="{{ url('storage/barangay-permits/' . $barangay_permit->barangayPermitImage) }}" />
+                                                    src="{{ Storage::disk('local')->url('storage/barangay-permits/' . $barangay_permit->barangayPermitImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>
