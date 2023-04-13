@@ -45,7 +45,6 @@ return [
 
         'local' => [
             'driver' => 'local',
-            // 'root' => storage_path('app/public'),
             'root' => public_path() . '/assets/dist/img/',
         ],
 
