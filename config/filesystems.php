@@ -32,14 +32,12 @@ return [
 
         // 'local' => [
         //     'driver' => 'local',
-        //     'root' => storage_path('app/public'),
-        //     // 'root' => public_path() . '/assets/dist/img/',
+        //     'root' => storage_path('app'),
         // ],
-
         // 'public' => [
         //     'driver' => 'local',
         //     'root' => storage_path('app/public'),
-        //     'url' => env('APP_URL'),
+        //     'url' => env('APP_URL') . '/storage',
         //     'visibility' => 'public',
         // ],
 
@@ -82,8 +80,8 @@ return [
     */
 
     'links' => [
-        // public_path('storage') => storage_path('app/public'),
-        base_path('public_html/storage') => storage_path('app/public'),
+        public_path('storage') => storage_path('app/public'),
+        // base_path('public_html/storage') => storage_path('app/public'),
     ],
 
 ];

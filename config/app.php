@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Barangay264'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL'),
+    // 'url' => env('APP_URL', 'http://localhost'),
+    // 'url' => env('APP_URL', 'https://e-barangay-production.up.railway.app/'),
 
     'asset_url' => env('ASSET_URL'),
 
