@@ -57,9 +57,9 @@
 
                                         <tr>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('assets/dist/img/barangay-officials/' . $barangay_official->brgyImage) }}" target="_blank" rel="noopener noreferrer">
+                                                <a href="{{ asset('storage/barangay-officials/' . $barangay_official->brgyImage) }}" target="_blank" rel="noopener noreferrer">
                                                     <img alt="Barangay Official" class="profile-user-img img-fluid img-circle"
-                                                    src="{{ asset('assets/dist/img/barangay-officials/' . $barangay_official->brgyImage) }}" />
+                                                    src="{{ asset('storage/barangay-officials/' . $barangay_official->brgyImage) }}" />
                                                 </a>
                                             </td>
                                             <td class="text-capitalize">

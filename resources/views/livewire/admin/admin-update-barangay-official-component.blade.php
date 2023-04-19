@@ -140,7 +140,7 @@
                                                         <p class="card-text">Photo Preview:</p>
                                                         <img src="{{ $brgyNewImage->temporaryUrl() }}" width="100" />
                                                     @else
-                                                        <img src="{{ asset('assets/dist/img/barangay-officials/') }} {{ $brgyImage }}" width="120" />
+                                                        <img src="{{ asset('storage/barangay-officials/') }} {{ $brgyImage }}" width="120" />
                                                     @endif
 
                                                     @error('brgyImage') <p class="text-danger">{{ $message }}</p> @enderror

@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="{{ asset('assets/dist/css/barangay-asset/barangay-services-styles.css') }}" />
 
     <!-- logo page -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type = "image/x-icon" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
 </head>
 <body>
 <div class="container">

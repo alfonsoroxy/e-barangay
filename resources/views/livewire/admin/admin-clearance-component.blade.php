@@ -177,9 +177,9 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('assets/dist/img/clearances/'.$clearance->clearanceImage) }}" target="_blank" rel="noopener noreferrer">
+                                                <a href="{{ asset('storage/clearances/'.$clearance->clearanceImage) }}" target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Clearance" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('assets/dist/img/clearances/'.$clearance->clearanceImage) }}" />
+                                                    src="{{ asset('storage/clearances/'.$clearance->clearanceImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>

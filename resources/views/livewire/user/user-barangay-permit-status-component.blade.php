@@ -110,10 +110,10 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('assets/dist/img/barangay-permits/'.$barangay_permit->barangayPermitImage) }}" 
+                                                <a href="{{ asset('storage/barangay-permits/'.$barangay_permit->barangayPermitImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Barangay Permit" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('assets/dist/img/barangay-permits/'.$barangay_permit->barangayPermitImage) }}" />
+                                                    src="{{ asset('storage/barangay-permits/'.$barangay_permit->barangayPermitImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>

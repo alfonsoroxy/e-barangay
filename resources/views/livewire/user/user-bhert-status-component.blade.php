@@ -114,10 +114,10 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('assets/dist/img/bherts/'.$bhert->bhertImage) }}" 
+                                                <a href="{{ asset('storage/bherts/'.$bhert->bhertImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid BHERT" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('assets/dist/img/bherts/'.$bhert->bhertImage) }}" />
+                                                    src="{{ asset('storage/bherts/'.$bhert->bhertImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>

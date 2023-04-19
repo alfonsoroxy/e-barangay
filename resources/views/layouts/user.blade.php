@@ -18,8 +18,7 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}" />
 <!-- logo page -->
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" href="{{ asset('favicon.ico') }}" type = "image/x-icon" />
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}" />
