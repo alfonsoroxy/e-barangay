@@ -105,7 +105,7 @@ class AdminAddBarangayOfficialComponent extends Component
         if (Auth::check()) {
             return view(
                 'livewire.admin.admin-add-barangay-official-component'
-            )->layout('layouts.admin')->middleware('is_admin');
+            )->layout('layouts.admin');
         } else {
             return redirect('/login')->with(['status', 'Please Login First.']);
         }
