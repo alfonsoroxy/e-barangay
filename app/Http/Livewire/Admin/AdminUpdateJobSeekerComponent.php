@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\JobSeeker;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateJobSeekerComponent extends Component
 {
@@ -14,6 +15,24 @@ class AdminUpdateJobSeekerComponent extends Component
     public $jobSeekerNationality, $jobSeekerGender, $jobSeekerMaritalstatus;
     public $jobSeekerAge, $jobSeekerResidentstayyears;
     public $job_seeker_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'jobSeekerFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'jobSeekerHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'jobSeekerStreetname' => 'required',
+
+        'jobSeekerNationality' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerGender' => 'required',
+        'jobSeekerMaritalstatus' => 'required',
+
+        'jobSeekerAge' => 'required|date',
+        'jobSeekerResidentstayyears' => 'required|date',
+    ];
 
     public function mount($job_seeker_id)
     {
@@ -54,11 +73,10 @@ class AdminUpdateJobSeekerComponent extends Component
         ]);
     }
 
-
     //Update Job Seeker
     public function updateJobSeeker()
     {
-        $job_seeker = JobSeeker::find($this->job_seeker_id);
+        $job_seeker = JobSeeker::findOrFail($this->job_seeker_id);
         $job_seeker->jobSeekerFname = $this->jobSeekerFname;
         $job_seeker->jobSeekerLname = $this->jobSeekerLname;
         $job_seeker->jobSeekerMname = $this->jobSeekerMname;
@@ -74,6 +92,8 @@ class AdminUpdateJobSeekerComponent extends Component
         $job_seeker->jobSeekerAge = $this->jobSeekerAge;
         $job_seeker->jobSeekerResidentstayyears = $this->jobSeekerResidentstayyears;
 
+        $this->formSubmitted = true;
+
         $job_seeker->save();
         return redirect()->route('admin.admin-job-seeker')
             ->with('message', 'First Time Job Seeker updated sucessfully!');
@@ -81,7 +101,7 @@ class AdminUpdateJobSeekerComponent extends Component
 
     public function updateJobSeekerStatus($job_seeker_id, $jobSeekerStatus)
     {
-        $job_seeker = JobSeeker::find($job_seeker_id);
+        $job_seeker = JobSeeker::findOrFail($job_seeker_id);
         $job_seeker->jobSeekerStatus = $jobSeekerStatus;
 
         if ($jobSeekerStatus == 'claimed') {
@@ -97,7 +117,14 @@ class AdminUpdateJobSeekerComponent extends Component
 
     public function render()
     {
-
-        return view('livewire.admin.admin-update-job-seeker-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-job-seeker-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

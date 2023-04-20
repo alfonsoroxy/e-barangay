@@ -12,7 +12,7 @@ class UserIndigencyStatusComponent extends Component
     //Cancel Request
     public function cancelIndigency($indigency_id, $indigencyStatus)
     {
-        $indigency = Indigency::find($indigency_id);
+        $indigency = Indigency::findOrFail($indigency_id);
         $indigency->indigencyStatus = $indigencyStatus;
 
         if ($indigencyStatus == 'canceled') {

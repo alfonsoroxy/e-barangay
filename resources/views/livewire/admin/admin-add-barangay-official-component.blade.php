@@ -31,7 +31,7 @@
                             <div class="card-header">
                               <h3 class="card-title">Add Barangay Official</h3>
                             </div>
-                            <form wire:submit.prevent="addBarangayOfficial" wire:loading.attr="disabled" enctype="multipart/form-data">@csrf
+                            <form wire:submit.prevent="addBarangayOfficial" enctype="multipart/form-data">@csrf
 
                                 <div class="card-body">
                                     <div class="row">
@@ -151,7 +151,8 @@
                                 </div>
                   
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-success float-right">
+                                    <button type="submit" class="btn btn-success float-right"
+                                        wire:loading.attr="disabled" :disabled="$formSubmitted">
                                         Add Official
                                     </button>
                                 </div>

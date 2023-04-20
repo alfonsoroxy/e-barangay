@@ -40,7 +40,10 @@ return [
 
         'public' => [
             'driver' => 'local',
+            //Can use Symlink
             'root' => storage_path('app/public/'),
+            //Cannot use Symlink
+            // 'root' => '/storage',
             'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],

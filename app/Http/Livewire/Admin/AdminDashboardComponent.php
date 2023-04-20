@@ -11,20 +11,13 @@ use App\Models\Certificate;
 use App\Models\Clearance;
 use App\Models\Indigency;
 use App\Models\JobSeeker;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class AdminDashboardComponent extends Component
 {
     public function render()
     {
-        // $announcements = [];
-
-        // Announcement::chunk(100, function ($chunk) use (&$announcements) {
-        //     foreach ($chunk as $announcement) {
-        //         $announcements[] = $announcement;
-        //     }
-        // });
-
         //All population
         $users = User::where('is_admin', 'USR');
         //All number of request
@@ -36,16 +29,27 @@ class AdminDashboardComponent extends Component
         $indigencies = Indigency::where('indigencyStatus', 'pending')->get();
         $job_seekers = JobSeeker::where('jobSeekerStatus', 'pending')->get();
 
-        return view('livewire.admin.admin-dashboard-component', [
-            'users' => $users,
-            // 'announcements' => $announcements,
-            'barangay_permits' => $barangay_permits,
-            // 'bherts' => $bherts,
-            'business_permits' => $business_permits,
-            'certificates' => $certificates,
-            'clearances' => $clearances,
-            'indigencies' => $indigencies,
-            'job_seekers' => $job_seekers
-        ])->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-dashboard-component',
+                    [
+                        'users' => $users,
+                        // 'announcements' => $announcements,
+                        'barangay_permits' => $barangay_permits,
+                        // 'bherts' => $bherts,
+                        'business_permits' => $business_permits,
+                        'certificates' => $certificates,
+                        'clearances' => $clearances,
+                        'indigencies' => $indigencies,
+                        'job_seekers' => $job_seekers
+                    ]
+                )->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

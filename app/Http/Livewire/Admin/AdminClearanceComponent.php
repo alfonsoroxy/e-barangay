@@ -19,6 +19,23 @@ class AdminClearanceComponent extends Component
     public $clearanceHousenumber, $clearanceStreetname;
     public $clearanceNationality, $clearanceGender, $clearanceMaritalstatus;
     public $clearanceImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'clearanceFname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceLname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceSuffix' => 'nullable|max:10/|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'clearanceHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'clearanceStreetname' => 'required',
+
+        'clearanceNationality' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceGender' => 'required',
+        'clearanceMaritalstatus' => 'required',
+
+        'clearanceImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -35,7 +52,7 @@ class AdminClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'clearanceImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -54,7 +71,7 @@ class AdminClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'clearanceImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $clearance = new Clearance();
@@ -78,6 +95,8 @@ class AdminClearanceComponent extends Component
 
         $clearance->clearanceStatus = 'approved';
 
+        $this->formSubmitted = true;
+
         $clearance->save();
         return redirect()->route('admin.admin-clearance')
             ->with(
@@ -89,7 +108,7 @@ class AdminClearanceComponent extends Component
     // Update Status
     public function updateClearanceStatus($clearance_id, $clearanceStatus)
     {
-        $clearance = Clearance::find($clearance_id);
+        $clearance = Clearance::findOrFail($clearance_id);
         $clearance->clearanceStatus = $clearanceStatus;
 
         if ($clearanceStatus == 'claimed') {
@@ -112,7 +131,7 @@ class AdminClearanceComponent extends Component
     //Delete Barangay Clearance
     public function deleteClearance($id)
     {
-        $clearance = Clearance::find($id);
+        $clearance = Clearance::findOrFail($id);
 
         Storage::disk('local')->delete('clearances/' . $clearance->clearanceImage);
         $clearance->delete();
@@ -130,8 +149,19 @@ class AdminClearanceComponent extends Component
             }
         });
 
-        return view('livewire.admin.admin-clearance-component', [
-            'clearances' => $clearances
-        ])->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-clearance-component',
+                    [
+                        'clearances' => $clearances
+                    ]
+                )->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

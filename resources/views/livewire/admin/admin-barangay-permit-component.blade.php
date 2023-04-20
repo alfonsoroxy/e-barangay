@@ -171,10 +171,10 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/barangay-permits/'. $barangay_permit->barangayPermitImage) }}" 
+                                                <a href="{{ URL::to('storage/barangay-permits/'. $barangay_permit->barangayPermitImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Brgy Permit" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/barangay-permits/'. $barangay_permit->barangayPermitImage) }}" />
+                                                    src="{{ URL::to('storage/barangay-permits/'. $barangay_permit->barangayPermitImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>
@@ -266,7 +266,7 @@
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-success" wire:click.prevent="addBarangayPermit()"
-                                    wire:loading.attr="disabled">
+                                    wire:loading.attr="disabled" :disabled="$formSubmitted">
                                     Add
                                 </button>
                             </div>

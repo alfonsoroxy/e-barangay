@@ -12,7 +12,7 @@ class UserBhertStatusComponent extends Component
     //Cancel Request
     public function cancelBHERT($bhert_id, $bhertStatus)
     {
-        $bhert = BHERT::find($bhert_id);
+        $bhert = BHERT::findOrFail($bhert_id);
         $bhert->bhertStatus = $bhertStatus;
 
         if ($bhertStatus == 'canceled') {

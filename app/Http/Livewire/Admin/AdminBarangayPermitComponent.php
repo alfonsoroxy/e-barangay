@@ -18,6 +18,7 @@ class AdminBarangayPermitComponent extends Component
     public $barangayPermitName;
     public $barangayPermitHousenumber, $barangayPermitStreetname;
     public $barangayPermitImage;
+    public $formSubmitted = false;
 
     protected $rules = [
         'barangayPermitName' => 'required|string|max:255',
@@ -25,7 +26,7 @@ class AdminBarangayPermitComponent extends Component
         'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
         'barangayPermitStreetname' => 'required',
 
-        'barangayPermitImage' => 'image|mimes:jpg,jpeg,png|max:1024',
+        'barangayPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
     ];
 
     public function updated($fields)
@@ -36,7 +37,7 @@ class AdminBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'image|mimes:jpg,jpeg,png|max:1024',
+            'barangayPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -48,7 +49,7 @@ class AdminBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'image|mimes:jpg,jpeg,png|max:1024',
+            'barangayPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $barangay_permit = new BarangayPermit();
@@ -73,6 +74,8 @@ class AdminBarangayPermitComponent extends Component
                 'message',
                 'Barangay Permit added successfully!'
             );
+
+        $this->formSubmitted = true;
     }
 
     public function updateBarangayPermitStatus($barangay_permit_id, $barangayPermitStatus)
@@ -118,8 +121,19 @@ class AdminBarangayPermitComponent extends Component
             }
         });
 
-        return view('livewire.admin.admin-barangay-permit-component', [
-            'barangay_permits' => $barangay_permits
-        ])->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-barangay-permit-component',
+                    [
+                        'barangay_permits' => $barangay_permits
+                    ]
+                )->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

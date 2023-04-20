@@ -4,11 +4,19 @@ namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\Announcement;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateAnnouncementComponent extends Component
 {
     //Announcement Variables
     public $announcement_id, $announcementSubject, $announcementFrom, $announcementMessage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'announcementSubject' => 'required|string',
+        'announcementFrom' => 'required|string',
+        'announcementMessage' => 'required',
+    ];
 
     public function mount($announcement_id)
     {
@@ -31,10 +39,12 @@ class AdminUpdateAnnouncementComponent extends Component
     //Update Announcement
     public function updateAnnouncement()
     {
-        $announcement = Announcement::find($this->announcement_id);
+        $announcement = Announcement::findOrFail($this->announcement_id);
         $announcement->announcementSubject = $this->announcementSubject;
         $announcement->announcementFrom = $this->announcementFrom;
         $announcement->announcementMessage = $this->announcementMessage;
+
+        $this->formSubmitted = true;
 
         $announcement->save();
         return redirect()->route('admin.admin-announcement')
@@ -43,6 +53,14 @@ class AdminUpdateAnnouncementComponent extends Component
 
     public function render()
     {
-        return view('livewire.admin.admin-update-announcement-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-announcement-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

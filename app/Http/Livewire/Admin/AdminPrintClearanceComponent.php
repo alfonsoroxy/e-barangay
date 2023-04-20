@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Clearance;
 use App\Models\BarangayOfficial;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPrintClearanceComponent extends Component
 {
@@ -17,15 +18,23 @@ class AdminPrintClearanceComponent extends Component
 
     public function render()
     {
-        $clearance = Clearance::find($this->clearance_id);
-
+        $clearance = Clearance::findOrFail($this->clearance_id);
         $barangay_officials = BarangayOfficial::all();
 
-        return view(
-            'livewire.admin.admin-print-clearance-component',
-            ['clearance' => $clearance]
-        )
-            ->layout('layouts.print')
-            ->with('barangay_officials', $barangay_officials);
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-print-clearance-component',
+                    [
+                        'clearance' => $clearance,
+                        'barangay_officials' => $barangay_officials
+                    ]
+                )->layout('layouts.print');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

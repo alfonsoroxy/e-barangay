@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\BarangayPermit;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateBarangayPermitComponent extends Component
 {
@@ -12,6 +13,14 @@ class AdminUpdateBarangayPermitComponent extends Component
     public $barangayPermitName;
     public $barangayPermitHousenumber, $barangayPermitStreetname;
     public $barangay_permit_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'barangayPermitName' => 'required|string|max:255',
+
+        'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'barangayPermitStreetname' => 'required',
+    ];
 
     public function mount($barangay_permit_id)
     {
@@ -30,18 +39,19 @@ class AdminUpdateBarangayPermitComponent extends Component
 
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
-
         ]);
     }
 
     //Update Permit
     public function updateBarangayPermit()
     {
-        $barangay_permit = BarangayPermit::find($this->barangay_permit_id);
+        $barangay_permit = BarangayPermit::findOrFail($this->barangay_permit_id);
         $barangay_permit->barangayPermitName = $this->barangayPermitName;
 
         $barangay_permit->barangayPermitHousenumber = $this->barangayPermitHousenumber;
         $barangay_permit->barangayPermitStreetname = $this->barangayPermitStreetname;
+
+        $this->formSubmitted = true;
 
         $barangay_permit->save();
         return redirect()->route('admin.admin-barangay-permit')
@@ -50,7 +60,7 @@ class AdminUpdateBarangayPermitComponent extends Component
 
     public function updateBarangayPermitStatus($barangay_permit_id, $barangayPermitStatus)
     {
-        $barangay_permit = BarangayPermit::find($barangay_permit_id);
+        $barangay_permit = BarangayPermit::findOrFail($barangay_permit_id);
         $barangay_permit->barangayPermitStatus = $barangayPermitStatus;
 
         if ($barangayPermitStatus == 'claimed') {
@@ -66,7 +76,14 @@ class AdminUpdateBarangayPermitComponent extends Component
 
     public function render()
     {
-
-        return view('livewire.admin.admin-update-barangay-permit-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-barangay-permit-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

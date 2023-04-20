@@ -64,7 +64,7 @@ class RegisterController extends Controller
             'maritalStatus' => ['required'],
 
             'contact' => ['nullable', 'string', 'regex:/^[-0-9\+]+$/', 'max:11'],
-            'image' => ['image', 'mimes:jpg,jpeg,png', 'max:2048',],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048',],
 
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],

@@ -26,7 +26,7 @@ class AdminVerifyUserController extends Controller
     public function edit($user_id)
     {
         //Send Find Specific User
-        $user = User::find($user_id);
+        $user = User::findOrFail($user_id);
 
         return view('admin.verify-user.edit-verify-user', compact('user'));
     }
@@ -34,7 +34,7 @@ class AdminVerifyUserController extends Controller
     public function update(Request $request, $user_id)
     {
         //Send Find Specific User
-        $user = User::find($user_id);
+        $user = User::findOrFail($user_id);
         if ($user) {
             $user->is_resident = $request->is_resident;
             $user->update();

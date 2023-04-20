@@ -12,7 +12,7 @@ class UserJobSeekerStatusComponent extends Component
     //Cancel Request
     public function cancelJobSeeker($job_seeker_id, $jobSeekerStatus)
     {
-        $job_seeker = JobSeeker::find($job_seeker_id);
+        $job_seeker = JobSeeker::findOrFail($job_seeker_id);
         $job_seeker->jobSeekerStatus = $jobSeekerStatus;
 
         if ($jobSeekerStatus == 'canceled') {

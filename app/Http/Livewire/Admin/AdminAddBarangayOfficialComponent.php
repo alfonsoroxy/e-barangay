@@ -6,6 +6,7 @@ use App\Models\BarangayOfficial;
 use Livewire\Component;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAddBarangayOfficialComponent extends Component
 {
@@ -13,6 +14,23 @@ class AdminAddBarangayOfficialComponent extends Component
     public $brgyOfficialFname, $brgyOfficialLname, $brgyOfficialMname, $brgyOfficialSuffix, $brgyOfficialPosition;
     public $brgyOfficialHousenumber, $brgyOfficialStreetname, $brgyOfficialEmail, $brgyOfficialContact;
     public $brgyImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'brgyOfficialFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'brgyOfficialLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'brgyOfficialMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'brgyOfficialSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'brgyOfficialHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'brgyOfficialStreetname' => 'required',
+
+        'brgyOfficialEmail' => 'email|string',
+        'brgyOfficialContact' => 'nullable|string|max:12|regex:/^[-0-9\+]+$/',
+        'brgyOfficialPosition' => 'required',
+
+        'brgyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -29,7 +47,7 @@ class AdminAddBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:12|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'brgyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -50,7 +68,7 @@ class AdminAddBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'brgyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $barangay_official = new BarangayOfficial();
@@ -72,6 +90,8 @@ class AdminAddBarangayOfficialComponent extends Component
             $barangay_official->brgyImage = $imageName;
         }
 
+        $this->formSubmitted = true;
+
         $barangay_official->save();
         return redirect()->route('admin.admin-barangay-official')
             ->with('message', 'Barangay Officials has been added sucessfully! ');
@@ -82,6 +102,12 @@ class AdminAddBarangayOfficialComponent extends Component
 
     public function render()
     {
-        return view('livewire.admin.admin-add-barangay-official-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            return view(
+                'livewire.admin.admin-add-barangay-official-component'
+            )->layout('layouts.admin')->middleware('is_admin');
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

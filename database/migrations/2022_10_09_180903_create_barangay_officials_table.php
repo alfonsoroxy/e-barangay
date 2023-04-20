@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('barangay_officials', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned();
             $table->string('brgyOfficialFname');
             $table->string('brgyOfficialLname');
             $table->string('brgyOfficialMname')->nullable();
@@ -39,6 +40,7 @@ return new class extends Migration
 
             //Syntax For Declaring Foreign Key
             // $table->foreign('table_name'_'column')->references('column')->on('table_name')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

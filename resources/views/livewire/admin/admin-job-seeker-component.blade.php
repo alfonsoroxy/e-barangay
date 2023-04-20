@@ -183,10 +183,10 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" 
+                                                <a href="{{ URL::to('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Job Seeker" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" />
+                                                    src="{{ URL::to('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>
@@ -372,8 +372,8 @@
                                 <div class="modal-footer justify-content-between">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-success" wire:click.prevent="addJobSeeker()"
-                                        wire:loading.attr="disabled">
-                                        Add
+                                        wire:loading.attr="disabled" :disabled="$formSubmitted">
+                                        Add Request
                                     </button>
                                 </div>
                             </form>

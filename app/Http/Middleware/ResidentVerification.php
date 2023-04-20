@@ -18,7 +18,7 @@ class ResidentVerification
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::user()->is_resident == 'Denied') {
+            if (Auth::user()->is_resident === 'Denied') {
                 return redirect()->route('resident-verification');
             } else {
                 return $next($request);

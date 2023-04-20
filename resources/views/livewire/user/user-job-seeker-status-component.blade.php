@@ -119,10 +119,10 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" 
+                                                <a href="{{ URL::to('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Job Seeker" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" />
+                                                    src="{{ URL::to('storage/job-seekers/'.$job_seeker->jobSeekerImage) }}" />
                                                 </a>
                                             </td>                                      
                                         </tr>

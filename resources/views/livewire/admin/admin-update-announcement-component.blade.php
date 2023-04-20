@@ -68,7 +68,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-success float-right">
+                                    <button type="submit" class="btn btn-success float-right"
+                                        wire:loading.attr="disabled" :disabled="$formSubmitted">
                                         Update Announcement
                                     </button>
                                 </div>

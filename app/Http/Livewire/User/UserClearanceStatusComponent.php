@@ -12,7 +12,7 @@ class UserClearanceStatusComponent extends Component
     //Cancel Request
     public function cancelClearance($clearance_id, $clearanceStatus)
     {
-        $clearance = Clearance::find($clearance_id);
+        $clearance = Clearance::findOrFail($clearance_id);
         $clearance->clearanceStatus = $clearanceStatus;
 
         if ($clearanceStatus == 'canceled') {

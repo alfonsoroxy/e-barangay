@@ -18,7 +18,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::user()->is_admin == 'ADM') {
+            if (Auth::user()->is_admin === 'ADM') {
                 return $next($request);
             } else {
                 return redirect('/')->with('status', 'You do not have permission to access for this page.');

@@ -117,10 +117,10 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/business-permits/'.$business_permit->businessPermitImage)}}" 
+                                                <a href="{{ URL::to('storage/business-permits/'.$business_permit->businessPermitImage)}}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Business Permit" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/business-permits/'.$business_permit->businessPermitImage)}}" />
+                                                    src="{{ URL::to('storage/business-permits/'.$business_permit->businessPermitImage)}}" />
                                                 </a>
                                             </td>
                                         </tr>

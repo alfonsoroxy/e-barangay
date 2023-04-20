@@ -17,6 +17,21 @@ class UserIndigencyComponent extends Component
     public $indigencyHousenumber, $indigencyStreetname;
     public $indigencyPurpose;
     public $indigencyImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'indigencyFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'indigencyLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'indigencyMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'indigencySuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'indigencyHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'indigencyStreetname' => 'required',
+
+        'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'indigencyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -31,7 +46,7 @@ class UserIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'indigencyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -48,7 +63,7 @@ class UserIndigencyComponent extends Component
 
             'indigencyPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
 
-            'indigencyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'indigencyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $indigency = new Indigency();
@@ -70,6 +85,8 @@ class UserIndigencyComponent extends Component
         }
 
         $indigency->indigencyStatus = 'pending';
+
+        $this->formSubmitted = true;
 
         $indigency->save();
         return redirect()->route('user.user-indigency-status')

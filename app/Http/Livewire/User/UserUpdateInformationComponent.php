@@ -13,6 +13,24 @@ class UserUpdateInformationComponent extends Component
     public $birthday, $gender, $nationality, $maritalStatus;
     public $contact;
     public $user_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'first_name' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'last_name' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'mname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'suffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'houseNumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'streetName' => 'required',
+
+        'birthday' => 'required',
+        'nationality' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'gender' => 'required',
+        'maritalStatus' => 'required',
+
+        'contact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
+    ];
 
     public function mount($user_id)
     {
@@ -58,7 +76,7 @@ class UserUpdateInformationComponent extends Component
     //Update Resident
     public function updateResident()
     {
-        $user = User::find($this->user_id);
+        $user = User::findOrFail($this->user_id);
         $user->first_name = $this->first_name;
         $user->mname = $this->mname;
         $user->last_name = $this->last_name;
@@ -73,6 +91,8 @@ class UserUpdateInformationComponent extends Component
         $user->maritalStatus = $this->maritalStatus;
 
         $user->contact = $this->contact;
+
+        $this->formSubmitted = true;
 
         $user->save();
         return redirect()->route('user.user-information')

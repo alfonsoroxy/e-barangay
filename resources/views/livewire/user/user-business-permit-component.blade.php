@@ -336,7 +336,7 @@
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-success" wire:click.prevent="addBusinessPermit()"
-                                    wire:loading.attr="disabled">
+                                    wire:loading.attr="disabled" :disabled="$formSubmitted">
                                     Send Request
                                 </button>
                             </div>

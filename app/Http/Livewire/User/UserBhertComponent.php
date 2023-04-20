@@ -17,6 +17,22 @@ class UserBhertComponent extends Component
     public $bhertHousenumber, $bhertStreetname;
     public $bhertPurpose, $bhertAge;
     public $bhertImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'bhertFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'bhertHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'bhertStreetname' => 'required',
+
+        'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertAge' => 'required|numeric|between:18,100',
+
+        'bhertImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -32,7 +48,7 @@ class UserBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'bhertImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -50,7 +66,7 @@ class UserBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'bhertImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $bhert = new BHERT();
@@ -72,6 +88,8 @@ class UserBhertComponent extends Component
         }
 
         $bhert->bhertStatus = 'pending';
+
+        $this->formSubmitted = true;
 
         $bhert->save();
         return redirect()->route('user.user-bhert-status')

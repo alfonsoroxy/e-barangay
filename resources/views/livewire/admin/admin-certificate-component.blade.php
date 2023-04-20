@@ -176,10 +176,10 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/certificates/'.$certificate->certificateImage) }}" 
+                                                <a href="{{ URL::to('storage/certificates/'.$certificate->certificateImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Certificate" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/certificates/'.$certificate->certificateImage) }}" />
+                                                    src="{{ URL::to('storage/certificates/'.$certificate->certificateImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>
@@ -340,7 +340,7 @@
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-success" wire:click.prevent="addCertificate()"
-                                    wire:loading.attr="disabled">
+                                    wire:loading.attr="disabled" :disabled="$formSubmitted">
                                     Add
                                 </button>
                             </div>

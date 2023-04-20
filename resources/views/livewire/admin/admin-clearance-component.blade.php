@@ -177,9 +177,9 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/clearances/'.$clearance->clearanceImage) }}" target="_blank" rel="noopener noreferrer">
+                                                <a href="{{ URL::to('storage/clearances/'.$clearance->clearanceImage) }}" target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Clearance" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/clearances/'.$clearance->clearanceImage) }}" />
+                                                    src="{{ URL::to('storage/clearances/'.$clearance->clearanceImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>
@@ -339,8 +339,8 @@
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-success" wire:click.prevent="addClearance()"
-                                    wire:loading.attr="disabled">
-                                    Add
+                                    wire:loading.attr="disabled" :disabled="$formSubmitted">
+                                    Add Request
                                 </button>
                             </div>
                         </form>

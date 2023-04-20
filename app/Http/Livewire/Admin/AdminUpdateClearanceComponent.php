@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Clearance;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateClearanceComponent extends Component
 {
@@ -13,6 +14,21 @@ class AdminUpdateClearanceComponent extends Component
     public $clearanceHousenumber, $clearanceStreetname;
     public $clearanceNationality, $clearanceGender, $clearanceMaritalstatus;
     public $clearance_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'clearanceFname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceLname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceSuffix' => 'nullable|max:10/|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'clearanceHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'clearanceStreetname' => 'required',
+
+        'clearanceNationality' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceGender' => 'required',
+        'clearanceMaritalstatus' => 'required',
+    ];
 
     public function mount($clearance_id)
     {
@@ -52,7 +68,7 @@ class AdminUpdateClearanceComponent extends Component
     //Update Clearance
     public function updateClearance()
     {
-        $clearance = Clearance::find($this->clearance_id);
+        $clearance = Clearance::findOrFail($this->clearance_id);
         $clearance->clearanceFname = $this->clearanceFname;
         $clearance->clearanceLname = $this->clearanceLname;
         $clearance->clearanceMname = $this->clearanceMname;
@@ -65,6 +81,8 @@ class AdminUpdateClearanceComponent extends Component
         $clearance->clearanceGender = $this->clearanceGender;
         $clearance->clearanceMaritalstatus = $this->clearanceMaritalstatus;
 
+        $this->formSubmitted = true;
+
         $clearance->save();
         return redirect()->route('admin.admin-clearance')
             ->with('message', 'Barangay Clearance updated sucessfully!');
@@ -72,7 +90,7 @@ class AdminUpdateClearanceComponent extends Component
 
     public function updateClearanceStatus($clearance_id, $clearanceStatus)
     {
-        $clearance = Clearance::find($clearance_id);
+        $clearance = Clearance::findOrFail($clearance_id);
         $clearance->clearanceStatus = $clearanceStatus;
 
         if ($clearanceStatus == 'claimed') {
@@ -88,7 +106,14 @@ class AdminUpdateClearanceComponent extends Component
 
     public function render()
     {
-
-        return view('livewire.admin.admin-update-clearance-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-clearance-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

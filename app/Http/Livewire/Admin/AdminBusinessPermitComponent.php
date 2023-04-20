@@ -19,6 +19,22 @@ class AdminBusinessPermitComponent extends Component
     public $businessPermitHousenumber, $businessPermitStreetname;
     public $businessPermitBusinessname, $businessPermitBusinessYearEstablish;
     public $businessPermitImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'businessPermitFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'businessPermitLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'businessPermitMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'businessPermitSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'businessPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'businessPermitStreetname' => 'required|',
+
+        'businessPermitBusinessname' => 'required|max:255|string',
+        'businessPermitBusinessYearEstablish' => 'required|date',
+
+        'businessPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -34,7 +50,7 @@ class AdminBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'businessPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -52,7 +68,7 @@ class AdminBusinessPermitComponent extends Component
             'businessPermitBusinessname' => 'required|max:255|string',
             'businessPermitBusinessYearEstablish' => 'required|date',
 
-            'businessPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'businessPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $business_permit = new BusinessPermit();
@@ -76,6 +92,8 @@ class AdminBusinessPermitComponent extends Component
 
         $business_permit->businessPermitStatus = 'approved';
 
+        $this->formSubmitted = true;
+
         $business_permit->save();
         return redirect()->route('admin.admin-business-permit')
             ->with(
@@ -89,7 +107,7 @@ class AdminBusinessPermitComponent extends Component
     // Update Status
     public function updateBusinessPermitStatus($business_permit_id, $businessPermitStatus)
     {
-        $business_permit = BusinessPermit::find($business_permit_id);
+        $business_permit = BusinessPermit::findOrFail($business_permit_id);
         $business_permit->businessPermitStatus = $businessPermitStatus;
 
         if ($businessPermitStatus == 'claimed') {
@@ -112,7 +130,7 @@ class AdminBusinessPermitComponent extends Component
     //Delete Business Permit
     public function deleteBusinessPermit($id)
     {
-        $business_permit = BusinessPermit::find($id);
+        $business_permit = BusinessPermit::findOrFail($id);
 
         Storage::disk('local')->delete('business-permits/' . $business_permit->businessPermitImage);
         $business_permit->delete();
@@ -130,8 +148,19 @@ class AdminBusinessPermitComponent extends Component
             }
         });
 
-        return view('livewire.admin.admin-business-permit-component', [
-            'business_permits' => $business_permits
-        ])->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-business-permit-component',
+                    [
+                        'business_permits' => $business_permits
+                    ]
+                )->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

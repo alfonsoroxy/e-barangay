@@ -35,9 +35,9 @@
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile" style="text-transform: capitalize;">
                                 <div class="profile-username text-center">
-                                    <a href="{{ asset('assets/dist/img/verification/'.Auth::user()->image) }}" target="_blank" rel="noopener noreferrer">
+                                    <a href="{{ URL::to('storage/verification/'.Auth::user()->image) }}" target="_blank" rel="noopener noreferrer">
                                         <img alt="User Profile" class="profile-user-img img-fluid img-circle"
-                                        src="{{ asset('assets/dist/img/verification/'.Auth::user()->image) }}" />
+                                        src="{{ URL::to('storage/verification/'.Auth::user()->image) }}" />
                                     </a>
                                 </div>
                                 

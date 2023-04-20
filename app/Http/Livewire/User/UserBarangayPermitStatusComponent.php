@@ -11,7 +11,7 @@ class UserBarangayPermitStatusComponent extends Component
 {
     public function cancelBarangayPermit($barangay_permit_id, $barangayPermitStatus)
     {
-        $barangay_permit = barangayPermit::find($barangay_permit_id);
+        $barangay_permit = barangayPermit::findOrFail($barangay_permit_id);
         $barangay_permit->barangayPermitStatus = $barangayPermitStatus;
 
         if ($barangayPermitStatus == 'canceled') {

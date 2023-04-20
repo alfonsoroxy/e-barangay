@@ -155,7 +155,10 @@
                                     </div>
                                 </div>    
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-success float-right">Update</button>
+                                    <button type="submit" class="btn btn-success float-right"
+                                        wire:loading.attr="disabled" :disabled="$formSubmitted">
+                                        Update Request
+                                    </button>
                                 </div>
                             </div>
                             </form>

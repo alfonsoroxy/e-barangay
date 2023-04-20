@@ -6,6 +6,7 @@ use App\Models\BarangayOfficial;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateBarangayOfficialComponent extends Component
 {
@@ -15,6 +16,23 @@ class AdminUpdateBarangayOfficialComponent extends Component
     public $brgyOfficialEmail, $brgyOfficialContact, $brgyOfficialPosition;
     public $brgyImage, $brgyNewImage;
     public $barangay_official_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'brgyOfficialFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'brgyOfficialLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'brgyOfficialMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'brgyOfficialSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'brgyOfficialHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'brgyOfficialStreetname' => 'required',
+
+        'brgyOfficialEmail' => 'email|string',
+        'brgyOfficialContact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
+        'brgyOfficialPosition' => 'required',
+
+        'brgyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function mount($barangay_official_id)
     {
@@ -49,7 +67,7 @@ class AdminUpdateBarangayOfficialComponent extends Component
             'brgyOfficialContact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
             'brgyOfficialPosition' => 'required',
 
-            'brgyImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'brgyImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -57,7 +75,7 @@ class AdminUpdateBarangayOfficialComponent extends Component
     //Update Barangay Officials
     public function updateBarangayOfficial()
     {
-        $barangay_official = BarangayOfficial::find($this->barangay_official_id);
+        $barangay_official = BarangayOfficial::findOrFail($this->barangay_official_id);
         $barangay_official->brgyOfficialFname = $this->brgyOfficialFname;
         $barangay_official->brgyOfficialLname = $this->brgyOfficialLname;
         $barangay_official->brgyOfficialMname = $this->brgyOfficialMname;
@@ -76,6 +94,8 @@ class AdminUpdateBarangayOfficialComponent extends Component
             $barangay_official->brgyImage = $imageName;
         }
 
+        $this->formSubmitted = true;
+
         $barangay_official->save();
         return redirect()->route('admin.admin-barangay-official')
             ->with('message', 'Barangay Official updated sucessfully!');
@@ -83,7 +103,14 @@ class AdminUpdateBarangayOfficialComponent extends Component
 
     public function render()
     {
-
-        return view('livewire.admin.admin-update-barangay-official-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-barangay-official-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

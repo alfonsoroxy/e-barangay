@@ -12,7 +12,7 @@ class UserCertificateStatusComponent extends Component
     //Cancel Request
     public function cancelCertificate($certificate_id, $certificateStatus)
     {
-        $certificate = Certificate::find($certificate_id);
+        $certificate = Certificate::findOrFail($certificate_id);
         $certificate->certificateStatus = $certificateStatus;
 
         if ($certificateStatus == 'canceled') {

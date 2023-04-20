@@ -19,6 +19,22 @@ class AdminBhertComponent extends Component
     public $bhertHousenumber, $bhertStreetname;
     public $bhertPurpose, $bhertAge;
     public $bhertImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'bhertFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'bhertHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'bhertStreetname' => 'required',
+
+        'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertAge' => 'required|numeric|between:18,100',
+
+        'bhertImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -34,7 +50,7 @@ class AdminBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'bhertImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -52,7 +68,7 @@ class AdminBhertComponent extends Component
             'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
             'bhertAge' => 'required|numeric|between:18,100',
 
-            'bhertImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'bhertImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $bhert = new BHERT();
@@ -75,6 +91,8 @@ class AdminBhertComponent extends Component
 
         $bhert->bhertStatus = 'approved';
 
+        $this->formSubmitted = true;
+
         $bhert->save();
         return redirect()->route('admin.admin-bhert')
             ->with(
@@ -86,7 +104,7 @@ class AdminBhertComponent extends Component
     // Update Status
     public function updateBHERTStatus($bhert_id, $bhertStatus)
     {
-        $bhert = BHERT::find($bhert_id);
+        $bhert = BHERT::findOrFail($bhert_id);
         $bhert->bhertStatus = $bhertStatus;
 
         if ($bhertStatus == 'claimed') {
@@ -109,7 +127,7 @@ class AdminBhertComponent extends Component
     //Delete BHERT Certificate
     public function deleteBHERT($id)
     {
-        $bhert = BHERT::find($id);
+        $bhert = BHERT::findOrFail($id);
 
         Storage::disk('local')->delete('bherts/' . $bhert->bhertImage);
         $bhert->delete();
@@ -127,8 +145,19 @@ class AdminBhertComponent extends Component
             }
         });
 
-        return view('livewire.admin.admin-bhert-component', [
-            'bherts' => $bherts
-        ])->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-bhert-component',
+                    [
+                        'bherts' => $bherts
+                    ]
+                )->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

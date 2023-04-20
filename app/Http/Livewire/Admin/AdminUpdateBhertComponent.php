@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\BHERT;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateBhertComponent extends Component
 {
@@ -13,6 +14,20 @@ class AdminUpdateBhertComponent extends Component
     public $bhertHousenumber, $bhertStreetname;
     public $bhertPurpose, $bhertAge;
     public $bhert_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'bhertFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'bhertHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'bhertStreetname' => 'required',
+
+        'bhertPurpose' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'bhertAge' => 'required|numeric|between:13,100',
+    ];
 
     public function mount($bhert_id)
     {
@@ -50,7 +65,7 @@ class AdminUpdateBhertComponent extends Component
     //Update BHERT
     public function updateBHERT()
     {
-        $bhert = BHERT::find($this->bhert_id);
+        $bhert = BHERT::findOrFail($this->bhert_id);
         $bhert->bhertFname = $this->bhertFname;
         $bhert->bhertLname = $this->bhertLname;
         $bhert->bhertMname = $this->bhertMname;
@@ -62,6 +77,8 @@ class AdminUpdateBhertComponent extends Component
         $bhert->bhertPurpose = $this->bhertPurpose;
         $bhert->bhertAge = $this->bhertAge;
 
+        $this->formSubmitted = true;
+
         $bhert->save();
         return redirect()->route('admin.admin-bhert')
             ->with('message', 'Barangay BHERT Certificate updated sucessfully!');
@@ -69,7 +86,7 @@ class AdminUpdateBhertComponent extends Component
 
     public function updateBHERTStatus($bhert_id, $bhertStatus)
     {
-        $bhert = BHERT::find($bhert_id);
+        $bhert = BHERT::findOrFail($bhert_id);
         $bhert->bhertStatus = $bhertStatus;
 
         if ($bhertStatus == 'claimed') {
@@ -85,7 +102,14 @@ class AdminUpdateBhertComponent extends Component
 
     public function render()
     {
-
-        return view('livewire.admin.admin-update-bhert-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-bhert-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

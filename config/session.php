@@ -46,7 +46,8 @@ return [
     |
     */
 
-    'encrypt' => false,
+    // 'encrypt' => false,
+    'encrypt' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +129,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'Barangay-264'), '_') . '_session'
     ),
 
     /*
@@ -156,6 +157,7 @@ return [
     */
 
     'domain' => env('SESSION_DOMAIN'),
+    // 'domain' => env('SESSION_DOMAIN', 'https://barangay264.elementfx.com/'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +170,8 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', true),
+    // 'secure' => env('SESSION_SECURE_COOKIE'),
 
     /*
     |--------------------------------------------------------------------------
@@ -196,6 +199,6 @@ return [
     |
     */
 
-    'same_site' => 'lax',
-
+    // 'same_site' => 'lax',
+    'same_site' => 'strict',
 ];

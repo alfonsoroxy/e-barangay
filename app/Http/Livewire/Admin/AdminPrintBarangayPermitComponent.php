@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\BarangayPermit;
 use App\Models\BarangayOfficial;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPrintBarangayPermitComponent extends Component
 {
@@ -17,16 +18,23 @@ class AdminPrintBarangayPermitComponent extends Component
 
     public function render()
     {
-
-        $barangay_permit = BarangayPermit::find($this->barangay_permit_id);
-
+        $barangay_permit = BarangayPermit::findOrFail($this->barangay_permit_id);
         $barangay_officials = BarangayOfficial::all();
 
-        return view(
-            'livewire.admin.admin-print-barangay-permit-component',
-            ['barangay_permit' => $barangay_permit]
-        )
-            ->layout('layouts.print')
-            ->with('barangay_officials', $barangay_officials);
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-print-barangay-permit-component',
+                    [
+                        'barangay_permit' => $barangay_permit,
+                        'barangay_officials', $barangay_officials
+                    ]
+                )->layout('layouts.print');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

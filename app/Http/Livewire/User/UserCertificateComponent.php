@@ -17,6 +17,20 @@ class UserCertificateComponent extends Component
     public $certificateHousenumber, $certificateStreetname;
     public $certificatePurpose, $certificateOtherPurpose;
     public $certificateImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'certificateFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'certificateLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'certificateMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'certificateSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'certificateHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'certificateStreetname' => 'required',
+        'certificatePurpose' => 'required',
+
+        'certificateImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -30,7 +44,7 @@ class UserCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'certificateImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -46,7 +60,7 @@ class UserCertificateComponent extends Component
             'certificateStreetname' => 'required',
             'certificatePurpose' => 'required',
 
-            'certificateImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'certificateImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $certificate = new Certificate();
@@ -69,6 +83,8 @@ class UserCertificateComponent extends Component
         }
 
         $certificate->certificateStatus = 'pending';
+
+        $this->formSubmitted = true;
 
         $certificate->save();
         return redirect()->route('user.user-certificate-status')

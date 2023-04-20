@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateBarangayStaffComponent extends Component
 {
@@ -13,6 +14,24 @@ class AdminUpdateBarangayStaffComponent extends Component
     public $birthday, $gender, $nationality, $maritalStatus;
     public $contact;
     public $user_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'first_name' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'last_name' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'mname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'suffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'houseNumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'streetName' => 'required',
+
+        'birthday' => 'required',
+        'nationality' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'gender' => 'required',
+        'maritalStatus' => 'required',
+
+        'contact' => 'nullable|string|max:11|regex:/^[-0-9\+]+$/',
+    ];
 
     public function mount($user_id)
     {
@@ -57,7 +76,7 @@ class AdminUpdateBarangayStaffComponent extends Component
     //Update Resident
     public function updateStaff()
     {
-        $user = User::find($this->user_id);
+        $user = User::findOrFail($this->user_id);
         $user->first_name = $this->first_name;
         $user->mname = $this->mname;
         $user->last_name = $this->last_name;
@@ -73,6 +92,8 @@ class AdminUpdateBarangayStaffComponent extends Component
 
         $user->contact = $this->contact;
 
+        $this->formSubmitted = true;
+
         $user->save();
         return redirect()->route('admin.admin-barangay-staff')
             ->with('message', 'Barangay Staff updated sucessfully!');
@@ -80,6 +101,14 @@ class AdminUpdateBarangayStaffComponent extends Component
 
     public function render()
     {
-        return view('livewire.admin.admin-update-barangay-staff-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-barangay-staff-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

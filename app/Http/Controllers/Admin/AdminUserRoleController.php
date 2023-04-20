@@ -26,7 +26,7 @@ class AdminUserRoleController extends Controller
     public function edit($user_id)
     {
         //Send Find Specific User
-        $user = User::find($user_id);
+        $user = User::findOrFail($user_id);
 
 
         return view('admin.user-role.edit-user-role', compact('user'));
@@ -35,7 +35,7 @@ class AdminUserRoleController extends Controller
     public function update(Request $request, $user_id)
     {
         //Send Find Specific User
-        $user = User::find($user_id);
+        $user = User::findOrFail($user_id);
         if ($user) {
             $user->is_admin = $request->is_admin;
             $user->update();

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Certificate;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUpdateCertificateComponent extends Component
 {
@@ -13,6 +14,18 @@ class AdminUpdateCertificateComponent extends Component
     public $certificateHousenumber, $certificateStreetname;
     public $certificatePurpose, $certificateOtherPurpose;
     public $certificate_id;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'certificateFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'certificateLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'certificateMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'certificateSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'certificateHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'certificateStreetname' => 'required',
+        'certificatePurpose' => 'required',
+    ];
 
     public function mount($certificate_id)
     {
@@ -47,7 +60,7 @@ class AdminUpdateCertificateComponent extends Component
     //Update Certificate
     public function updateCertificate()
     {
-        $certificate = Certificate::find($this->certificate_id);
+        $certificate = Certificate::findOrFail($this->certificate_id);
         $certificate->certificateFname = $this->certificateFname;
         $certificate->certificateLname = $this->certificateLname;
         $certificate->certificateMname = $this->certificateMname;
@@ -59,6 +72,8 @@ class AdminUpdateCertificateComponent extends Component
         $certificate->certificatePurpose = $this->certificatePurpose;
         $certificate->certificateOtherPurpose = $this->certificateOtherPurpose;
 
+        $this->formSubmitted = true;
+
         $certificate->save();
         return redirect()->route('admin.admin-certificate')
             ->with('message', 'Barangay Certificate updated sucessfully!');
@@ -66,7 +81,7 @@ class AdminUpdateCertificateComponent extends Component
 
     public function updateCerificateStatus($certificate_id, $certificateStatus)
     {
-        $certificate = Certificate::find($certificate_id);
+        $certificate = Certificate::findOrFail($certificate_id);
         $certificate->certificateStatus = $certificateStatus;
 
         if ($certificateStatus == 'claimed') {
@@ -82,7 +97,14 @@ class AdminUpdateCertificateComponent extends Component
 
     public function render()
     {
-
-        return view('livewire.admin.admin-update-certificate-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-update-certificate-component')->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

@@ -17,6 +17,26 @@ class UserJobSeekerComponent extends Component
     public $jobSeekerNationality, $jobSeekerGender, $jobSeekerMaritalstatus;
     public $jobSeekerAge, $jobSeekerResidentstayyears;
     public $jobSeekerImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'jobSeekerFname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerLname' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerSuffix' => 'nullable|max:10|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'jobSeekerHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'jobSeekerStreetname' => 'required',
+
+        'jobSeekerNationality' => 'required|max:255|regex:/^[a-zA-ZÑñ\s]+$/',
+        'jobSeekerGender' => 'required',
+        'jobSeekerMaritalstatus' => 'required',
+
+        'jobSeekerAge' => 'required|date',
+        'jobSeekerResidentstayyears' => 'required|date',
+
+        'jobSeekerImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -36,7 +56,7 @@ class UserJobSeekerComponent extends Component
             'jobSeekerAge' => 'required|date',
             'jobSeekerResidentstayyears' => 'required|date',
 
-            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'jobSeekerImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -58,7 +78,7 @@ class UserJobSeekerComponent extends Component
             'jobSeekerAge' => 'required|date',
             'jobSeekerResidentstayyears' => 'required|date',
 
-            'jobSeekerImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'jobSeekerImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $job_seeker = new JobSeeker();
@@ -84,6 +104,8 @@ class UserJobSeekerComponent extends Component
         }
 
         $job_seeker->jobSeekerStatus = 'pending';
+
+        $this->formSubmitted = true;
 
         $job_seeker->save();
         return redirect()->route('user.user-job-seeker-status')

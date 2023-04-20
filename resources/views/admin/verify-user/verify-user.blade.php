@@ -54,9 +54,9 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td class="d-flex justify-content-center">
-                                        <a href="{{asset('assets/dist/img/verification/'.Auth::user()->image)}}" target="_blank" rel="noopener noreferrer">
+                                        <a href="{{ URL::to('storage/verification/'.Auth::user()->image) }}" target="_blank" rel="noopener noreferrer">
                                             <img alt="User Profile" class="profile-user-img img-fluid img-circle"
-                                            src="{{asset('assets/dist/img/verification/'.Auth::user()->image)}}" />
+                                            src="{{ URL::to('storage/verification/'.Auth::user()->image) }}" />
                                         </a>
                                     </td>
                                     <td>{{ $item->first_name }}</td>

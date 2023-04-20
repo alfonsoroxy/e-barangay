@@ -12,7 +12,7 @@ class UserBusinessPermitStatusComponent extends Component
     //Cancel Request
     public function cancelBusinessPermit($business_permit_id, $businessPermitStatus)
     {
-        $business_permit = BusinessPermit::find($business_permit_id);
+        $business_permit = BusinessPermit::findOrFail($business_permit_id);
         $business_permit->businessPermitStatus = $businessPermitStatus;
 
         if ($businessPermitStatus == 'canceled') {

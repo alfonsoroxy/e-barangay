@@ -4,11 +4,19 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Announcement;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAddAnnoucementComponent extends Component
 {
     //Announcement Variables
     public $announcementSubject, $announcementFrom, $announcementMessage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'announcementSubject' => 'required|string',
+        'announcementFrom' => 'required|string',
+        'announcementMessage' => 'required',
+    ];
 
     public function updated($fields)
     {
@@ -32,6 +40,8 @@ class AdminAddAnnoucementComponent extends Component
         $announcement->announcementFrom = $this->announcementFrom;
         $announcement->announcementMessage = $this->announcementMessage;
 
+        $this->formSubmitted = true;
+
         $announcement->save();
         return redirect()->route('admin.admin-announcement')
             ->with('message', 'Barangay Announcement has been added sucessfully! ');
@@ -42,6 +52,14 @@ class AdminAddAnnoucementComponent extends Component
 
     public function render()
     {
-        return view('livewire.admin.admin-add-annoucement-component')->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view('livewire.admin.admin-add-annoucement-component')->layout('layouts.admin')->middleware('is_admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

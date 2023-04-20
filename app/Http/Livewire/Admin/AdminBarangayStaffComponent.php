@@ -5,13 +5,14 @@ namespace App\Http\Livewire\Admin;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminBarangayStaffComponent extends Component
 {
     //Delete Barangay Staff
     public function deleteStaff($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         Storage::disk('local')->delete('verification/' . $user->image);
         $user->delete();
@@ -29,8 +30,19 @@ class AdminBarangayStaffComponent extends Component
             }
         });
 
-        return view('livewire.admin.admin-barangay-staff-component', [
-            'users' => $users
-        ])->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-barangay-staff-component',
+                    [
+                        'users' => $users
+                    ]
+                )->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

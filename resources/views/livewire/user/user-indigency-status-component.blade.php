@@ -115,10 +115,10 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/indigencies/'.$indigency->indigencyImage) }}" 
+                                                <a href="{{ URL::to('storage/indigencies/'.$indigency->indigencyImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Indigency" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/indigencies/'.$indigency->indigencyImage) }}" />
+                                                    src="{{ URL::to('storage/indigencies/'.$indigency->indigencyImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>

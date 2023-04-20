@@ -4,12 +4,13 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Announcement;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAnnoucementComponent extends Component
 {
     public function deleteAnnouncement($id)
     {
-        $announcement = Announcement::find($id);
+        $announcement = Announcement::findOrFail($id);
 
         //Delete Announcement
         $announcement->delete();
@@ -27,8 +28,19 @@ class AdminAnnoucementComponent extends Component
             }
         });
 
-        return view('livewire.admin.admin-annoucement-component', [
-            'announcements' => $announcements
-        ])->layout('layouts.admin');
+        if (Auth::check()) {
+            if (Auth::user()->is_admin === 'ADM') {
+                return view(
+                    'livewire.admin.admin-annoucement-component',
+                    [
+                        'announcements' => $announcements
+                    ]
+                )->layout('layouts.admin');
+            } else {
+                return view('livewire.user.user-dashboard-component')->with('status', 'You do not have permission to access the page.');
+            }
+        } else {
+            return redirect('/login')->with(['status', 'Please Login First.']);
+        }
     }
 }

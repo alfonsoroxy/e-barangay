@@ -174,10 +174,10 @@
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/bherts/'.$bhert->bhertImage) }}" 
+                                                <a href="{{ URL::to('storage/bherts/'.$bhert->bhertImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid BHERT" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/bherts/'.$bhert->bhertImage) }}" />
+                                                    src="{{ URL::to('storage/bherts/'.$bhert->bhertImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>
@@ -319,7 +319,7 @@
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-success" wire:click.prevent="addBHERT()"
-                                    wire:loading.attr="disabled">
+                                    wire:loading.attr="disabled" :disabled="$formSubmitted">
                                     Add 
                                 </button>
                             </div>

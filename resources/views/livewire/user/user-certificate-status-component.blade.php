@@ -115,10 +115,10 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex justify-content-center">
-                                                <a href="{{ asset('storage/certificates/'.$certificate->certificateImage) }}" 
+                                                <a href="{{ URL::to('storage/certificates/'.$certificate->certificateImage) }}" 
                                                     target="_blank" rel="noopener noreferrer">
                                                     <img alt="Valid Certificate" class="profile-user-img img-fluid img-square"
-                                                    src="{{ asset('storage/certificates/'.$certificate->certificateImage) }}" />
+                                                    src="{{ URL::to('storage/certificates/'.$certificate->certificateImage) }}" />
                                                 </a>
                                             </td>
                                         </tr>

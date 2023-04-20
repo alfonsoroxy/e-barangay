@@ -113,9 +113,9 @@
                                                     @endif
                                                 </td>
                                                 <td class="d-flex justify-content-center">
-                                                    <a href="{{ asset('storage/clearances/'.$clearance->clearanceImage) }}" target="_blank" rel="noopener noreferrer">
+                                                    <a href="{{ URL::to('storage/clearances/'.$clearance->clearanceImage) }}" target="_blank" rel="noopener noreferrer">
                                                         <img alt="Valid Clearance" class="profile-user-img img-fluid img-square"
-                                                        src="{{ asset('storage/clearances/'.$clearance->clearanceImage) }}" />
+                                                        src="{{ URL::to('storage/clearances/'.$clearance->clearanceImage) }}" />
                                                     </a>
                                                 </td>
                                             </tr>

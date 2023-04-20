@@ -19,6 +19,22 @@ class UserClearanceComponent extends Component
     public $clearanceImage;
     public $formSubmitted = false;
 
+    protected $rules = [
+        'clearanceFname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceLname' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceMname' => 'nullable|max:1|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceSuffix' => 'nullable|max:10/|regex:/^[a-zA-ZÑñ\s]+$/',
+
+        'clearanceHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'clearanceStreetname' => 'required',
+
+        'clearanceNationality' => 'required|regex:/^[a-zA-ZÑñ\s]+$/',
+        'clearanceGender' => 'required',
+        'clearanceMaritalstatus' => 'required',
+
+        'clearanceImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
+
     public function updated($fields)
     {
         $this->validateOnly($fields, [
@@ -34,7 +50,7 @@ class UserClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'clearanceImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -53,7 +69,7 @@ class UserClearanceComponent extends Component
             'clearanceGender' => 'required',
             'clearanceMaritalstatus' => 'required',
 
-            'clearanceImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'clearanceImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $clearance = new Clearance();

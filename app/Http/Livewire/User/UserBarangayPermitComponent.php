@@ -16,6 +16,16 @@ class UserBarangayPermitComponent extends Component
     public $barangayPermitName;
     public $barangayPermitHousenumber, $barangayPermitStreetname;
     public $barangayPermitImage;
+    public $formSubmitted = false;
+
+    protected $rules = [
+        'barangayPermitName' => 'required|string|max:255',
+
+        'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
+        'barangayPermitStreetname' => 'required',
+
+        'barangayPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+    ];
 
     public function updated($fields)
     {
@@ -25,7 +35,7 @@ class UserBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'barangayPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
     }
 
@@ -37,7 +47,7 @@ class UserBarangayPermitComponent extends Component
             'barangayPermitHousenumber' => 'required|numeric|regex:/^[-0-9\+]+$/',
             'barangayPermitStreetname' => 'required',
 
-            'barangayPermitImage' => 'required|image|mimes:jpg,jpeg,png|max:1024',
+            'barangayPermitImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         $barangay_permit = new BarangayPermit();
@@ -55,6 +65,8 @@ class UserBarangayPermitComponent extends Component
 
         $barangay_permit->barangayPermitStatus = 'pending';
 
+        $this->formSubmitted = true;
+
         $barangay_permit->save();
         return redirect()->route('user.user-barangay-permit-status')
             ->with(
@@ -67,7 +79,6 @@ class UserBarangayPermitComponent extends Component
 
     public function render()
     {
-
         return view('livewire.user.user-barangay-permit-component')->layout('layouts.user');
     }
 }
